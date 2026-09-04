@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Trophy, Award, Gift, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Sparkles, Trophy, Award, Gift, ArrowRight, ShieldCheck, Coins } from 'lucide-react';
 import { getNextLevelUnlock, getEnvironmentalTitle } from '../data/ecoData';
 import { getLocalizedTitleName, getLocalizedUnlockName } from '../utils/i18n';
 import { EcoIcon } from './EcoIcon';
@@ -86,7 +86,7 @@ export const LevelUpModal: React.FC<LevelUpModalProps> = ({
           {/* Bonus Coin reward */}
           <div className="flex items-center justify-center gap-4 text-xs font-bold text-theme-muted py-1">
             <span className="flex items-center gap-1 text-amber-400">
-              <span className="text-base">🪙</span> +50 {language === 'es' ? 'Monedas Eco' : 'Eco Coins'}
+              <Coins className="w-4 h-4 text-amber-400" /> +50 {language === 'es' ? 'Monedas Eco' : 'Eco Coins'}
             </span>
             <span>•</span>
             <span className="flex items-center gap-1 text-theme-accent">
