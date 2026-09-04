@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <script>
+      // Defensive polyfill/wrapper to prevent "Cannot set property fetch of #<Window> which has only a getter"
+      const _originalFetch = window.fetch;
+      Object.defineProperty(window, 'fetch', {
+        configurable: true,
+        enumerable: true,
+        get: function() { return window._customFetch || _originalFetch; },
+        set: function(val) { window._customFetch = val; }
+      });
+
+      // GitHub Pages Auto-Fallback:
+      // If deployed as raw static files without build runner, seamlessly redirect to /dist/
+      if (window.location.hostname.endsWith('github.io')) {
+        window.addEventListener('DOMContentLoaded', function() {
+          var rawModuleScript = document.querySelector('script[src*="main.tsx"]');
+          if (rawModuleScript) {
+            var path = window.location.pathname;
+            if (!path.includes('/dist/') && !path.includes('/docs/')) {
+              var target = (path.endsWith('/') ? path : path + '/') + 'dist/' + window.location.search + window.location.hash;
+              window.location.replace(target);
+            }
+          }
+        });
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#020617" />
+    <title>AERIS - Eco Liceista (Liceo Caucasia)</title>
+    <meta name="description" content="Educational environmental pet simulator for Liceo Caucasia with Cat, Dog, and Rabbit guardians, eco-minigames, waste sorting, and species-tailored AI chat." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="./assets/index-Ep62utez.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BE26A7ak.css">
+  </head>
+  <body class="bg-slate-950 text-slate-800 antialiased select-none">
+    <div id="root"></div>
+  </body>
+</html>
+
