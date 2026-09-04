@@ -1,0 +1,218 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #fafaf9; /* stone-50 */
+    --bg-secondary: #f5f5f4; /* stone-100 */
+    --bg-tertiary: #e7e5e4; /* stone-200 */
+    --surface: #ffffff;
+    --surface-hover: #f5f5f4;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --hud-bg: rgba(255, 255, 255, 0.92);
+    --modal-bg: rgba(255, 255, 255, 0.96);
+
+    --border: #e7e5e4;
+    --border-subtle: #f5f5f4;
+    --border-accent: #059669; /* emerald-600 */
+    
+    --text-primary: #1c1917; /* stone-900 */
+    --text-secondary: #44403c; /* stone-700 */
+    --text-muted: #78716c; /* stone-500 */
+    --accent: #059669; /* emerald-600 */
+    --accent-secondary: #0284c7; /* sky-600 */
+    --accent-rgb: 5, 150, 105;
+    --glow: rgba(5, 150, 105, 0.15);
+
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+
+    --color-green-bin: #10b981;
+    --color-green-glow: rgba(16, 185, 129, 0.15);
+    --color-white-bin: #0ea5e9;
+    --color-white-glow: rgba(14, 165, 233, 0.15);
+    --color-black-bin: #64748b;
+    --color-black-glow: rgba(100, 116, 139, 0.15);
+
+    --accent-glow: 0 4px 12px rgba(5, 150, 105, 0.1);
+  }
+}
+
+/* Global Theme Transition (Smooth 280ms duration) */
+*, ::before, ::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 280ms;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform;
+  }
+
+  .bg-theme-primary {
+    background-color: var(--bg-primary);
+  }
+  .bg-theme-secondary {
+    background-color: var(--bg-secondary);
+  }
+  .bg-theme-tertiary {
+    background-color: var(--bg-tertiary);
+  }
+  .bg-theme-surface {
+    background-color: var(--surface);
+  }
+  .bg-theme-surface-hover:hover {
+    background-color: var(--surface-hover);
+  }
+  .bg-theme-card {
+    background-color: var(--card-bg);
+  }
+  .bg-theme-nav {
+    background-color: var(--nav-bg);
+  }
+  .bg-theme-hud {
+    background-color: var(--hud-bg);
+  }
+  .bg-theme-modal {
+    background-color: var(--modal-bg);
+  }
+  .bg-theme-accent {
+    background-color: var(--accent);
+  }
+
+  .text-theme-primary {
+    color: var(--text-primary);
+  }
+  .text-theme-secondary {
+    color: var(--text-secondary);
+  }
+  .text-theme-muted {
+    color: var(--text-muted);
+  }
+  .text-theme-accent {
+    color: var(--accent);
+  }
+  .text-theme-accent-secondary {
+    color: var(--accent-secondary);
+  }
+
+  .border-theme {
+    border-color: var(--border);
+  }
+  .border-theme-subtle {
+    border-color: var(--border-subtle);
+  }
+  .border-theme-accent {
+    border-color: var(--border-accent);
+  }
+
+  .shadow-theme-card {
+    box-shadow: var(--card-shadow);
+  }
+  .shadow-theme-glow {
+    box-shadow: 0 0 20px var(--glow);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 25px -3px rgba(6, 182, 212, 0.35);
+  }
+
+  .glow-emerald {
+    box-shadow: 0 0 25px -3px rgba(16, 185, 129, 0.35);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 25px -3px rgba(14, 165, 233, 0.35);
+  }
+
+  .glow-amber {
+    box-shadow: 0 0 25px -3px rgba(245, 158, 11, 0.35);
+  }
+
+  .theme-glow {
+    box-shadow: 0 0 25px -3px var(--glow);
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--bg-primary, #070b14);
+  color: var(--text-primary, #f8fafc);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10.5px;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Retro Pixel Font Classes */
+.font-pixel {
+  font-family: 'Press Start 2P', monospace;
+}
+
+.font-terminal {
+  font-family: 'VT323', monospace;
+}
+
+/* Accessible reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Lightweight CSS keyframe animations for high performance */
+@keyframes aerisPulseSlow {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+@keyframes bioBreathe {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.animate-aeris-pulse {
+  animation: aerisPulseSlow 4s ease-in-out infinite;
+}
+
+.animate-bio-breathe {
+  animation: bioBreathe 3.5s ease-in-out infinite;
+}
+
+.animate-float-gentle {
+  animation: floatGentle 3s ease-in-out infinite;
+}

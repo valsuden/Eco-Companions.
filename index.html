@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <script>
+      // Defensive polyfill/wrapper to prevent "Cannot set property fetch of #<Window> which has only a getter"
+      // This happens when browser extensions or aggressive polyfills try to do `window.fetch = ...` directly.
+      const _originalFetch = window.fetch;
+      Object.defineProperty(window, 'fetch', {
+        configurable: true,
+        enumerable: true,
+        get: function() { return window._customFetch || _originalFetch; },
+        set: function(val) { window._customFetch = val; }
+      });
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AERIS - Eco Liceista (Liceo Caucasia)</title>
+    <meta name="description" content="Educational environmental pet simulator for Liceo Caucasia with Cat, Dog, and Rabbit guardians, eco-minigames, waste sorting, and species-tailored AI chat." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-950 text-slate-800 antialiased select-none">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

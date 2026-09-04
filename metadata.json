@@ -1,0 +1,6 @@
+{
+  "name": "AERIS - Eco Liceista (Liceo Caucasia)",
+  "description": "Educational environmental pet simulator for Liceo Caucasia with Cat, Dog, and Rabbit guardians, eco-minigames, waste sorting, and species-tailored AI chat.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
