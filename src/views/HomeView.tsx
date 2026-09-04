@@ -18,6 +18,8 @@ interface HomeViewProps {
   onSleepPet: () => void;
   onPetClick: () => void;
   onOpenDailyReward: () => void;
+  onOpenNotifications?: () => void;
+  unreadNotificationsCount?: number;
   onRewardXpAndCoins: (xp: number, coins: number) => void;
   onUpdatePetName?: (newName: string) => void;
   onUpdateUser?: (updates: Partial<User>) => void;
@@ -33,6 +35,8 @@ export function HomeView({
   onSleepPet,
   onPetClick,
   onOpenDailyReward,
+  onOpenNotifications,
+  unreadNotificationsCount = 0,
   onRewardXpAndCoins,
   onUpdatePetName,
   onUpdateUser,
@@ -106,6 +110,8 @@ export function HomeView({
         user={user} 
         stats={stats} 
         onOpenDailyReward={onOpenDailyReward} 
+        onOpenNotifications={onOpenNotifications}
+        unreadNotificationsCount={unreadNotificationsCount}
         onUpdateUser={onUpdateUser}
       />
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { User, Stats } from '../types';
 import { getEnvironmentalTitle } from '../data/ecoData';
-import { Flame, Coins, Heart, Zap, Check, Utensils, Sparkles } from 'lucide-react';
+import { Flame, Coins, Heart, Zap, Check, Utensils, Sparkles, Bell, Volume2, VolumeX } from 'lucide-react';
 import { useI18n, getLocalizedTitleName } from '../utils/i18n';
 import { sound } from '../utils/sound';
 
@@ -10,10 +10,19 @@ interface HUDProps {
   user: User;
   stats: Stats;
   onOpenDailyReward?: () => void;
+  onOpenNotifications?: () => void;
+  unreadNotificationsCount?: number;
   onUpdateUser?: (updates: Partial<User>) => void;
 }
 
-export const HUD: React.FC<HUDProps> = ({ user, stats, onOpenDailyReward, onUpdateUser }) => {
+export const HUD: React.FC<HUDProps> = ({ 
+  user, 
+  stats, 
+  onOpenDailyReward, 
+  onOpenNotifications,
+  unreadNotificationsCount = 0,
+  onUpdateUser 
+}) => {
   const currentLang = user.language || 'en';
   const t = useI18n(currentLang);
   const currentTitle = getEnvironmentalTitle(user.level);
@@ -140,8 +149,50 @@ export const HUD: React.FC<HUDProps> = ({ user, stats, onOpenDailyReward, onUpda
         </div>
       </div>
 
-      {/* Right side: Pills (Streak, Sync, Language, Coins, Resources) */}
+      {/* Right side: Pills (Notification Bell, Sound, Streak, Sync, Language, Coins, Resources) */}
       <div className="flex flex-wrap items-center gap-2 md:gap-2.5 w-full md:w-auto justify-start md:justify-end">
+        {/* Notifications Bell */}
+        {onOpenNotifications && (
+          <button
+            onClick={() => {
+              sound.playClick();
+              onOpenNotifications();
+            }}
+            className="relative flex items-center justify-center w-8 h-8 rounded-xl border transition-all cursor-pointer shadow-sm active:scale-95"
+            style={{
+              backgroundColor: 'var(--surface)',
+              borderColor: 'var(--border)',
+              color: 'var(--text-primary)',
+            }}
+            title={currentLang === 'es' ? 'Notificaciones' : 'Notifications'}
+          >
+            <Bell className="w-4 h-4" />
+            {unreadNotificationsCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white font-black text-[9px] flex items-center justify-center animate-pulse shadow-sm">
+                {unreadNotificationsCount}
+              </span>
+            )}
+          </button>
+        )}
+
+        {/* Sound Toggle */}
+        <button
+          onClick={() => {
+            const nextSound = !user.soundEnabled;
+            sound.setEnabled(nextSound);
+            if (onUpdateUser) onUpdateUser({ soundEnabled: nextSound });
+          }}
+          className="flex items-center justify-center w-8 h-8 rounded-xl border transition-all cursor-pointer shadow-sm active:scale-95"
+          style={{
+            backgroundColor: 'var(--surface)',
+            borderColor: 'var(--border)',
+            color: user.soundEnabled ? 'var(--accent)' : 'var(--text-muted)',
+          }}
+          title={user.soundEnabled ? 'Silenciar sonidos' : 'Activar sonidos'}
+        >
+          {user.soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 opacity-50" />}
+        </button>
+
         {/* Streak Pill */}
         <button
           onClick={() => {

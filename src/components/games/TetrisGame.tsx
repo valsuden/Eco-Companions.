@@ -179,12 +179,12 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between bg-slate-950 text-white p-3 sm:p-5 select-none relative overflow-hidden ">
+    <div className="w-full h-full flex flex-col justify-between bg-theme-primary text-theme-primary p-3 sm:p-5 select-none relative overflow-hidden ">
       {/* Top Game Bar */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+      <div className="flex items-center justify-between pb-3 border-b border-theme">
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-xs font-bold text-slate-300 cursor-pointer border border-slate-700/60"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-theme-surface hover:bg-theme-surface-hover text-xs font-bold text-theme-secondary cursor-pointer border border-theme"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>{t.exit}</span>
@@ -196,7 +196,7 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
             <span>{score} {t.points}</span>
           </div>
 
-          <div className="flex items-center gap-1 text-cyan-400">
+          <div className="flex items-center gap-1 text-theme-accent">
             <Zap className="w-4 h-4" />
             <span>{t.level.toUpperCase()} {level}</span>
           </div>
@@ -209,7 +209,7 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
       </div>
 
       {/* Main Tetris Grid (3 Bins Columns) */}
-      <div className="flex-1 max-w-lg mx-auto w-full my-2 relative bg-slate-900/90 rounded-2xl border border-slate-800 flex overflow-hidden shadow-2xl backdrop-blur-md">
+      <div className="flex-1 max-w-lg mx-auto w-full my-2 relative glass-card rounded-2xl border-theme flex overflow-hidden shadow-theme-card backdrop-blur-md">
         {/* Combo badge */}
         {combo >= 2 && (
           <div className="absolute top-3 right-3 bg-amber-500 text-slate-950 px-2.5 py-1 rounded-full text-xs font-black shadow-lg z-30 flex items-center gap-1">
@@ -221,10 +221,10 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
         {/* Feedback Alert */}
         {feedback && (
           <div
-            className={`absolute top-4 left-1/2 -translate-x-1/2 z-40 px-4 py-1.5 rounded-full text-xs font-extrabold shadow-lg border ${
+            className={`absolute top-4 left-1/2 -translate-x-1/2 z-40 px-4 py-1.5 rounded-full text-xs font-extrabold shadow-sm border ${
               feedback.correct
-                ? 'bg-emerald-950/95 text-emerald-300 border-emerald-500/60'
-                : 'bg-rose-950/95 text-rose-300 border-rose-500/60'
+                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 backdrop-blur-md'
+                : 'bg-rose-500/20 text-rose-400 border-rose-500/40 backdrop-blur-md'
             }`}
           >
             {feedback.text}
@@ -243,7 +243,7 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
                   setActivePiece((prev) => (prev ? { ...prev, col: index } : null));
                 }
               }}
-              className={`flex-1 h-full border-r last:border-r-0 border-slate-800/80 ${lane.bg} relative flex flex-col justify-between p-2 cursor-pointer transition-colors hover:bg-slate-800/40`}
+              className={`flex-1 h-full border-r last:border-r-0 border-theme ${lane.bg} relative flex flex-col justify-between p-2 cursor-pointer transition-colors hover:bg-theme-surface-hover`}
             >
               {/* Top Lane Header */}
               <div className="text-center pt-2">
@@ -255,7 +255,7 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
 
               {/* Bottom Target Bin */}
               <div
-                className={`w-full py-3.5 rounded-xl ${lane.binColor} border ${lane.border} flex flex-col items-center justify-center text-white shadow-md`}
+                className={`w-full py-3.5 rounded-xl ${lane.binColor} border ${lane.border} flex flex-col items-center justify-center text-white shadow-sm`}
               >
                 <LaneIcon className={`w-6 h-6 ${lane.color}`} />
                 <span className="text-[10px] font-black uppercase mt-1 tracking-wider">
@@ -276,10 +276,10 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
             }}
             className="absolute flex flex-col items-center pointer-events-none z-20 transition-all duration-75"
           >
-            <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-2xl bg-slate-800/90 border border-cyan-400/50 flex flex-col items-center justify-center shadow-xl backdrop-blur-md">
+            <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-2xl bg-theme-surface border border-theme-accent/50 flex flex-col items-center justify-center shadow-lg backdrop-blur-md">
               <EcoIcon name={activePiece.waste.icon} className="w-7 h-7" />
             </div>
-            <div className="mt-1 px-2 py-0.5 bg-slate-950/90 rounded-md text-[10px] font-bold text-slate-200 text-center truncate max-w-[90%] border border-slate-700">
+            <div className="mt-1 px-2 py-0.5 bg-theme-primary rounded-md text-[10px] font-bold text-theme-primary text-center truncate max-w-[90%] border border-theme">
               {getLocalizedWasteItem(activePiece.waste, language).name}
             </div>
           </div>
@@ -290,15 +290,15 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
       <div className="max-w-lg mx-auto w-full flex items-center justify-between gap-3 pb-2">
         <button
           onClick={moveLeft}
-          className="flex-1 py-3.5 bg-slate-800/90 hover:bg-slate-700 active:scale-95 rounded-2xl font-black text-xs uppercase flex items-center justify-center gap-1.5 border border-slate-700 cursor-pointer"
+          className="flex-1 py-3.5 bg-theme-surface hover:bg-theme-surface-hover active:scale-95 rounded-2xl font-black text-xs uppercase flex items-center justify-center gap-1.5 border border-theme cursor-pointer"
         >
-          <ArrowLeft className="w-4 h-4 text-cyan-400" />
+          <ArrowLeft className="w-4 h-4 text-theme-accent" />
           <span>{t.left}</span>
         </button>
 
         <button
           onClick={dropFast}
-          className="flex-1 py-3.5 bg-cyan-600 hover:bg-cyan-500 active:scale-95 text-slate-950 rounded-2xl font-black text-xs uppercase flex items-center justify-center gap-1.5 shadow-lg shadow-cyan-950/40 cursor-pointer border border-cyan-400/30"
+          className="flex-1 py-3.5 bg-theme-accent hover:opacity-90 active:scale-95 text-white rounded-2xl font-black text-xs uppercase flex items-center justify-center gap-1.5 shadow-md cursor-pointer border border-theme-accent"
         >
           <ArrowDown className="w-4 h-4" />
           <span>{t.dropFast}</span>
@@ -306,40 +306,40 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
 
         <button
           onClick={moveRight}
-          className="flex-1 py-3.5 bg-slate-800/90 hover:bg-slate-700 active:scale-95 rounded-2xl font-black text-xs uppercase flex items-center justify-center gap-1.5 border border-slate-700 cursor-pointer"
+          className="flex-1 py-3.5 bg-theme-surface hover:bg-theme-surface-hover active:scale-95 rounded-2xl font-black text-xs uppercase flex items-center justify-center gap-1.5 border border-theme cursor-pointer"
         >
           <span>{t.right}</span>
-          <ArrowRight className="w-4 h-4 text-cyan-400" />
+          <ArrowRight className="w-4 h-4 text-theme-accent" />
         </button>
       </div>
 
       {/* Game Over Modal */}
       {gameOver && (
-        <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 z-50 select-none">
-          <div className="max-w-sm w-full bg-slate-900 border border-cyan-500/50 rounded-3xl p-6 text-center space-y-4 shadow-2xl">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 select-none">
+          <div className="max-w-sm w-full glass-card border border-theme-accent/50 rounded-3xl p-6 text-center space-y-4 shadow-theme-glow">
             <div className="w-14 h-14 mx-auto rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
               <Trophy className="w-8 h-8 text-amber-400" />
             </div>
-            <h3 className="text-xl font-black text-slate-100">{t.gameOver}</h3>
-            <p className="text-xs text-slate-400">
+            <h3 className="text-xl font-black text-theme-primary">{t.gameOver}</h3>
+            <p className="text-xs text-theme-secondary">
               {language === 'es' ? 'Gran trabajo clasificando los residuos del Liceo Caucasia.' : 'Great job sorting waste and protecting the environment.'}
             </p>
 
-            <div className="grid grid-cols-2 gap-2 bg-slate-950 p-3 rounded-2xl border border-slate-800 text-xs">
+            <div className="grid grid-cols-2 gap-2 bg-theme-surface p-3 rounded-2xl border border-theme text-xs">
               <div>
-                <span className="text-slate-500 block">{t.score}</span>
+                <span className="text-theme-muted block">{t.score}</span>
                 <span className="font-black text-amber-400 text-sm">{score} {t.points}</span>
               </div>
               <div>
-                <span className="text-slate-500 block">{t.wasteSorted}</span>
-                <span className="font-black text-cyan-400 text-sm">{classifiedCount}</span>
+                <span className="text-theme-muted block">{t.wasteSorted}</span>
+                <span className="font-black text-theme-accent text-sm">{classifiedCount}</span>
               </div>
               <div>
-                <span className="text-slate-500 block">Max Combo</span>
+                <span className="text-theme-muted block">Max Combo</span>
                 <span className="font-black text-rose-400 text-sm">{maxCombo}x</span>
               </div>
               <div>
-                <span className="text-slate-500 block">{t.coins}</span>
+                <span className="text-theme-muted block">{t.coins}</span>
                 <span className="font-black text-emerald-400 text-sm flex items-center justify-center gap-1">
                   <Coins className="w-3.5 h-3.5 text-amber-400" />
                   <span>+{Math.max(5, Math.floor(score / 15) + classifiedCount * 2)}</span>
@@ -349,7 +349,7 @@ export const TetrisGame: React.FC<TetrisGameProps> = ({ language = 'en', onBack,
 
             <button
               onClick={handleFinish}
-              className="w-full py-3 bg-gradient-to-r from-cyan-500 to-teal-400 hover:from-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-2xl shadow-lg cursor-pointer"
+              className="w-full py-3 bg-theme-accent hover:opacity-90 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-md cursor-pointer border border-theme-accent"
             >
               {t.claimReward}
             </button>

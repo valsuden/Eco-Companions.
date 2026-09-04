@@ -229,19 +229,19 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-between bg-slate-950 text-white p-3 sm:p-5 select-none relative overflow-hidden ">
+    <div className="w-full h-full flex flex-col justify-between bg-theme-primary text-theme-primary p-3 sm:p-5 select-none relative overflow-hidden ">
       {/* Top Bar */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-800 z-30">
+      <div className="flex items-center justify-between pb-3 border-b border-theme z-30">
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-xs font-bold text-slate-300 border border-slate-700/60 cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-theme-surface hover:bg-theme-surface-hover text-xs font-bold text-theme-secondary border border-theme cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>{t.exit}</span>
         </button>
 
         <div className="flex items-center gap-4 text-xs font-bold">
-          <div className="flex items-center gap-1 text-cyan-400">
+          <div className="flex items-center gap-1 text-theme-accent">
             <span>{t.level} {level}/{maxLevels}</span>
           </div>
 
@@ -258,20 +258,20 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
       </div>
 
       {/* Main Interactive Park Canvas */}
-      <div className="flex-1 max-w-2xl mx-auto w-full my-2 relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col justify-between">
+      <div className="flex-1 max-w-2xl mx-auto w-full my-2 relative rounded-3xl overflow-hidden border border-theme shadow-theme-card flex flex-col justify-between">
         {/* Static Vector Background Matching the Photo */}
         <ParkLandscape />
 
         {/* Cleanliness Progress Top Badge */}
         <div className="relative z-10 p-3 flex items-center justify-between">
-          <div className="bg-slate-900/90 backdrop-blur-md px-3.5 py-1.5 rounded-2xl border border-slate-800 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span className="text-xs font-bold text-slate-200">
+          <div className="glass-panel px-3.5 py-1.5 rounded-2xl border flex items-center gap-2 shadow-sm">
+            <Sparkles className="w-4 h-4 text-theme-accent" />
+            <span className="text-xs font-bold text-theme-primary">
               {t.parkCleanupTitle}: {cleanlinessPercent}%
             </span>
           </div>
 
-          <div className="bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-slate-800 text-xs font-bold text-cyan-300">
+          <div className="glass-panel px-3 py-1.5 rounded-2xl border text-xs font-bold text-theme-accent shadow-sm">
             {cleanedInLevel} / {totalInLevel} {language === 'es' ? 'Recogidos' : 'Cleaned'}
           </div>
         </div>
@@ -291,13 +291,13 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
                   setSelectedLitter(litter);
                 }}
                 style={{ left: `${litter.x}%`, top: `${litter.y}%` }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 p-2 rounded-2xl bg-slate-900/95 hover:bg-slate-800 shadow-xl border border-cyan-500/40 hover:border-cyan-400 transition-transform active:scale-90 flex flex-col items-center group cursor-pointer backdrop-blur-md"
+                className="absolute -translate-x-1/2 -translate-y-1/2 p-2 rounded-2xl glass-card border-theme-accent/40 hover:border-theme-accent shadow-lg transition-transform active:scale-90 flex flex-col items-center group cursor-pointer backdrop-blur-md"
                 title={`${litter.waste.name}`}
               >
                 <div className="p-1">
                   <EcoIcon name={litter.waste.icon} className="w-7 h-7" />
                 </div>
-                <span className="text-[9px] font-black text-slate-950 bg-cyan-400 px-1.5 py-0.5 rounded-full mt-0.5 whitespace-nowrap shadow-xs uppercase tracking-tight">
+                <span className="text-[9px] font-black text-white bg-theme-accent px-1.5 py-0.5 rounded-full mt-0.5 whitespace-nowrap shadow-xs uppercase tracking-tight">
                   {language === 'es' ? 'Recoger' : 'Collect'}
                 </span>
               </motion.button>
@@ -307,8 +307,8 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
 
         {/* Bottom Educational Hint */}
         <div className="relative z-10 p-3 text-center">
-          <span className="text-[11px] font-semibold text-slate-300 bg-slate-900/90 border border-slate-800 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-sm inline-flex items-center gap-1.5">
-            <Lightbulb className="w-3.5 h-3.5 text-cyan-400" />
+          <span className="text-[11px] font-semibold text-theme-secondary glass-panel px-3.5 py-1.5 rounded-full shadow-sm inline-flex items-center gap-1.5">
+            <Lightbulb className="w-3.5 h-3.5 text-theme-accent" />
             <span>{t.parkCleanupDesc}</span>
           </span>
         </div>
@@ -321,31 +321,31 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
-            className="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 z-50 select-none"
+            className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 select-none"
           >
-            <div className="bg-slate-900 border border-cyan-500/50 rounded-3xl p-5 max-w-sm w-full text-center space-y-4 shadow-2xl">
-              <div className="w-16 h-16 rounded-2xl bg-slate-800/90 border border-slate-700 flex items-center justify-center mx-auto shadow-inner">
+            <div className="glass-card border border-theme-accent/50 rounded-3xl p-5 max-w-sm w-full text-center space-y-4 shadow-theme-glow">
+              <div className="w-16 h-16 rounded-2xl bg-theme-surface border border-theme flex items-center justify-center mx-auto shadow-inner">
                 <EcoIcon name={selectedLitter.waste.icon} className="w-8 h-8" />
               </div>
 
               <div>
-                <h3 className="text-base font-black text-slate-100">{getLocalizedWasteItem(selectedLitter.waste, language).name}</h3>
-                <p className="text-xs text-slate-400 mt-0.5">{getLocalizedWasteItem(selectedLitter.waste, language).description}</p>
+                <h3 className="text-base font-black text-theme-primary">{getLocalizedWasteItem(selectedLitter.waste, language).name}</h3>
+                <p className="text-xs text-theme-secondary mt-0.5">{getLocalizedWasteItem(selectedLitter.waste, language).description}</p>
               </div>
 
               {errorFeedback && (
-                <div className="p-2 bg-rose-500/20 border border-rose-500/50 rounded-xl text-xs font-bold text-rose-300">
+                <div className="p-2 bg-rose-500/20 border border-rose-500/50 rounded-xl text-xs font-bold text-rose-400">
                   {errorFeedback}
                 </div>
               )}
 
-              <div className="text-xs font-bold text-slate-300">{language === 'es' ? '¿A qué contenedor pertenece?' : 'Which bin does it belong to?'}</div>
+              <div className="text-xs font-bold text-theme-secondary">{language === 'es' ? '¿A qué contenedor pertenece?' : 'Which bin does it belong to?'}</div>
 
               {/* 3 Bins */}
               <div className="grid grid-cols-3 gap-2">
                 <button
                   onClick={() => handleSortBin('organic')}
-                  className="py-3 px-1 rounded-xl bg-emerald-950/90 hover:bg-emerald-900 font-bold text-xs text-emerald-300 shadow-md active:scale-95 transition-all flex flex-col items-center gap-1 border border-emerald-500/40 cursor-pointer"
+                  className="py-3 px-1 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 font-bold text-xs text-emerald-400 shadow-sm active:scale-95 transition-all flex flex-col items-center gap-1 border border-emerald-500/40 cursor-pointer"
                 >
                   <Leaf className="w-4 h-4 text-emerald-400" />
                   <span>{t.organic}</span>
@@ -353,15 +353,15 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
 
                 <button
                   onClick={() => handleSortBin('recyclable')}
-                  className="py-3 px-1 rounded-xl bg-slate-100 hover:bg-white font-bold text-xs text-slate-700 shadow-md active:scale-95 transition-all flex flex-col items-center gap-1 border border-slate-300 cursor-pointer"
+                  className="py-3 px-1 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 font-bold text-xs text-sky-400 shadow-sm active:scale-95 transition-all flex flex-col items-center gap-1 border border-sky-500/40 cursor-pointer"
                 >
-                  <Recycle className="w-4 h-4 text-slate-600" />
+                  <Recycle className="w-4 h-4 text-sky-400" />
                   <span>{t.recyclable}</span>
                 </button>
 
                 <button
                   onClick={() => handleSortBin('non_usable')}
-                  className="py-3 px-1 rounded-xl bg-slate-900 hover:bg-slate-800 font-bold text-xs text-slate-300 shadow-md active:scale-95 transition-all flex flex-col items-center gap-1 border border-slate-700 cursor-pointer"
+                  className="py-3 px-1 rounded-xl bg-slate-500/20 hover:bg-slate-500/30 font-bold text-xs text-slate-300 shadow-sm active:scale-95 transition-all flex flex-col items-center gap-1 border border-slate-500/40 cursor-pointer"
                 >
                   <Trash2 className="w-4 h-4 text-slate-400" />
                   <span>{t.nonUsable}</span>
@@ -370,7 +370,7 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
 
               <button
                 onClick={() => setSelectedLitter(null)}
-                className="text-xs text-slate-400 hover:text-slate-200 underline pt-1 cursor-pointer"
+                className="text-xs text-theme-muted hover:text-theme-primary underline pt-1 cursor-pointer transition-colors"
               >
                 {t.cancel}
               </button>
@@ -385,25 +385,25 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 z-50 select-none"
+            className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 select-none"
           >
-            <div className="bg-slate-900 border border-cyan-500/50 rounded-3xl p-6 max-w-sm w-full text-center space-y-4 shadow-2xl">
-              <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center mx-auto text-cyan-400">
+            <div className="glass-card border border-theme-accent/50 rounded-3xl p-6 max-w-sm w-full text-center space-y-4 shadow-theme-glow">
+              <div className="w-12 h-12 rounded-2xl bg-theme-accent/20 border border-theme-accent/40 flex items-center justify-center mx-auto text-theme-accent">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h2 className="text-lg font-black text-cyan-300">{t.level} {level} {language === 'es' ? '¡Limpiado!' : 'Completed!'}</h2>
-              <p className="text-xs text-slate-300">
+              <h2 className="text-lg font-black text-theme-accent">{t.level} {level} {language === 'es' ? '¡Limpiado!' : 'Completed!'}</h2>
+              <p className="text-xs text-theme-secondary">
                 {language === 'es' ? 'El sector ahora luce limpio gracias a tu labor ecológica.' : 'The area looks cleaner thanks to your environmental work.'}
               </p>
 
-              <div className="bg-slate-800/80 p-3 rounded-2xl border border-slate-700 text-xs font-bold text-amber-300 flex items-center justify-center gap-1.5">
+              <div className="bg-theme-surface p-3 rounded-2xl border border-theme text-xs font-bold text-amber-400 flex items-center justify-center gap-1.5">
                 <Coins className="w-3.5 h-3.5 text-amber-400" />
                 <span>+15 {t.coins} • +35 XP</span>
               </div>
 
               <button
                 onClick={handleNextLevel}
-                className="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-lg"
+                className="w-full py-3 rounded-xl bg-theme-accent hover:opacity-90 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md border border-theme-accent"
               >
                 <span>{language === 'es' ? 'Siguiente Nivel' : 'Next Level'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -419,32 +419,32 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="fixed inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 z-50 select-none"
+            className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 z-50 select-none"
           >
-            <div className="bg-slate-900 border border-cyan-500/60 rounded-3xl p-6 max-w-sm w-full text-center space-y-4 shadow-2xl">
-              <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center mx-auto text-cyan-400">
+            <div className="glass-card border border-theme-accent/60 rounded-3xl p-6 max-w-sm w-full text-center space-y-4 shadow-theme-glow">
+              <div className="w-12 h-12 rounded-2xl bg-theme-accent/20 border border-theme-accent/40 flex items-center justify-center mx-auto text-theme-accent">
                 <Crown className="w-6 h-6 text-amber-400" />
               </div>
-              <h2 className="text-xl font-black text-cyan-300">{language === 'es' ? '¡Misión Parque Completada!' : 'Park Cleaned!'}</h2>
-              <p className="text-xs text-slate-300">
+              <h2 className="text-xl font-black text-theme-accent">{language === 'es' ? '¡Misión Parque Completada!' : 'Park Cleaned!'}</h2>
+              <p className="text-xs text-theme-secondary">
                 {language === 'es' ? 'Has protegido la fauna, el río y las áreas verdes del Liceo Caucasia.' : 'You protected nature, water, and green areas.'}
               </p>
 
-              <div className="bg-slate-800/90 rounded-2xl p-3 border border-slate-700 space-y-2 text-xs">
+              <div className="bg-theme-surface rounded-2xl p-3 border border-theme space-y-2 text-xs">
                 <div className="flex justify-between font-bold">
-                  <span className="text-slate-400">{t.score}:</span>
+                  <span className="text-theme-muted">{t.score}:</span>
                   <span className="text-amber-400">{score} {t.points}</span>
                 </div>
                 <div className="flex justify-between font-bold">
-                  <span className="text-slate-400">{t.wasteSorted}:</span>
-                  <span className="text-cyan-400">{totalClassified}</span>
+                  <span className="text-theme-muted">{t.wasteSorted}:</span>
+                  <span className="text-theme-accent">{totalClassified}</span>
                 </div>
-                <div className="flex justify-between font-bold pt-1.5 border-t border-slate-700">
-                  <span className="text-slate-400">{t.coins}:</span>
+                <div className="flex justify-between font-bold pt-1.5 border-t border-theme">
+                  <span className="text-theme-muted">{t.coins}:</span>
                   <span className="text-amber-300 flex items-center gap-1">
                     <Coins className="w-3.5 h-3.5 text-amber-400" />
                     <span>+{coinsEarnedTotal + Math.floor(score / 15)}</span>
-                    <span className="text-slate-500">•</span>
+                    <span className="text-theme-muted">•</span>
                     <span>+{xpEarnedTotal + Math.floor(score / 10)} XP</span>
                   </span>
                 </div>
@@ -452,7 +452,7 @@ export function ParkCleanupGame({ language = 'en', onBack, onFinish }: ParkClean
 
               <button
                 onClick={handleFinishGame}
-                className="w-full py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-cyan-600/40 cursor-pointer"
+                className="w-full py-3 rounded-xl bg-theme-accent hover:opacity-90 text-white font-black text-xs uppercase tracking-wider shadow-md cursor-pointer border border-theme-accent"
               >
                 {t.claimReward}
               </button>

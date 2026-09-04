@@ -96,27 +96,22 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
 
   return (
     <div 
-      className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none "
-      style={{
-        backgroundColor: 'var(--bg-primary)',
-        color: 'var(--text-primary)',
-      }}
+      className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary"
     >
       <div className="max-w-4xl mx-auto space-y-6 pb-20 md:pb-6">
         {/* Header */}
         <div 
           id="games-tour-rewards"
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4"
-          style={{ borderColor: 'var(--border)' }}
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-theme pb-4"
         >
           <div>
             <div className="flex items-center gap-2">
-              <Gamepad2 className="w-6 h-6" style={{ color: 'var(--accent)' }} />
-              <h1 className="text-xl sm:text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
+              <Gamepad2 className="w-6 h-6 text-theme-accent" />
+              <h1 className="text-xl sm:text-2xl font-black text-theme-primary">
                 {t.gamesHubTitle}
               </h1>
             </div>
-            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-xs mt-1 text-theme-muted">
               {t.gamesHubSubtitle}
             </p>
           </div>
@@ -129,12 +124,7 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
                 sound.playClick();
                 setShowTour(true);
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer hover:opacity-85"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'var(--border-accent)',
-                color: 'var(--accent)',
-              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-theme-accent text-xs font-bold transition-all cursor-pointer hover:opacity-85 glass-panel bg-theme-surface text-theme-accent"
               title={t.tourHelpBtnGames}
             >
               <HelpCircle className="w-4 h-4" />
@@ -142,14 +132,9 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
             </button>
 
             <div 
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl border text-xs font-bold backdrop-blur-md"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'var(--border)',
-                color: 'var(--accent)',
-              }}
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-theme text-xs font-bold glass-panel bg-theme-surface text-theme-accent"
             >
-              <Sparkles className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+              <Sparkles className="w-4 h-4 text-theme-accent" />
               <span>{t.totalWasteSorted}: {user.wasteStats.total}</span>
             </div>
           </div>
@@ -160,12 +145,7 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
           {/* GAME 1: WASTE TETRIS */}
           <motion.div
             whileHover={{ y: -4 }}
-            className="border rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all relative overflow-hidden group backdrop-blur-md"
-            style={{
-              backgroundColor: 'var(--surface)',
-              borderColor: 'rgba(16, 185, 129, 0.35)',
-              boxShadow: 'var(--card-shadow)',
-            }}
+            className="border rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all relative overflow-hidden group glass-panel bg-theme-surface border-emerald-500/30"
           >
             <div className="space-y-3 relative z-10">
               <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-inner">
@@ -176,21 +156,17 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-800/60">
                   {t.tetrisTag}
                 </span>
-                <h3 className="text-lg font-black mt-1.5" style={{ color: 'var(--text-primary)' }}>{t.tetrisTitle}</h3>
-                <p className="text-xs leading-relaxed mt-1" style={{ color: 'var(--text-muted)' }}>
+                <h3 className="text-lg font-black mt-1.5 text-theme-primary">{t.tetrisTitle}</h3>
+                <p className="text-xs leading-relaxed mt-1 text-theme-muted">
                   {t.tetrisDesc}
                 </p>
               </div>
 
               {/* Highscore */}
               <div 
-                className="rounded-xl p-2.5 border flex items-center justify-between text-xs"
-                style={{
-                  backgroundColor: 'var(--bg-primary)',
-                  borderColor: 'var(--border)',
-                }}
+                className="rounded-xl p-2.5 border border-theme flex items-center justify-between text-xs glass-panel bg-theme-primary"
               >
-                <span className="font-semibold flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                <span className="font-semibold flex items-center gap-1.5 text-theme-secondary">
                   <Trophy className="w-3.5 h-3.5 text-amber-400" /> {t.bestScore}:
                 </span>
                 <span className="font-extrabold text-amber-400">{user.highScores.tetris} {t.points}</span>
@@ -212,12 +188,7 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
           {/* GAME 2: FAST SORT */}
           <motion.div
             whileHover={{ y: -4 }}
-            className="border rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all relative overflow-hidden group backdrop-blur-md"
-            style={{
-              backgroundColor: 'var(--surface)',
-              borderColor: 'rgba(14, 165, 233, 0.35)',
-              boxShadow: 'var(--card-shadow)',
-            }}
+            className="border rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all relative overflow-hidden group glass-panel bg-theme-surface border-sky-500/30"
           >
             <div className="space-y-3 relative z-10">
               <div className="w-12 h-12 rounded-2xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 shadow-inner">
@@ -228,21 +199,17 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-400 bg-sky-950/60 px-2 py-0.5 rounded-full border border-sky-800/60">
                   {t.fastSortTag}
                 </span>
-                <h3 className="text-lg font-black mt-1.5" style={{ color: 'var(--text-primary)' }}>{t.fastSortTitle}</h3>
-                <p className="text-xs leading-relaxed mt-1" style={{ color: 'var(--text-muted)' }}>
+                <h3 className="text-lg font-black mt-1.5 text-theme-primary">{t.fastSortTitle}</h3>
+                <p className="text-xs leading-relaxed mt-1 text-theme-muted">
                   {t.fastSortDesc}
                 </p>
               </div>
 
               {/* Highscore */}
               <div 
-                className="rounded-xl p-2.5 border flex items-center justify-between text-xs"
-                style={{
-                  backgroundColor: 'var(--bg-primary)',
-                  borderColor: 'var(--border)',
-                }}
+                className="rounded-xl p-2.5 border border-theme flex items-center justify-between text-xs glass-panel bg-theme-primary"
               >
-                <span className="font-semibold flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                <span className="font-semibold flex items-center gap-1.5 text-theme-secondary">
                   <Trophy className="w-3.5 h-3.5 text-amber-400" /> {t.bestScore}:
                 </span>
                 <span className="font-extrabold text-amber-400">{user.highScores.fastSort} {t.points}</span>
@@ -264,12 +231,7 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
           {/* GAME 3: PARK CLEANUP */}
           <motion.div
             whileHover={{ y: -4 }}
-            className="border rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all relative overflow-hidden group backdrop-blur-md"
-            style={{
-              backgroundColor: 'var(--surface)',
-              borderColor: 'rgba(20, 184, 166, 0.35)',
-              boxShadow: 'var(--card-shadow)',
-            }}
+            className="border rounded-3xl p-5 flex flex-col justify-between shadow-xl transition-all relative overflow-hidden group glass-panel bg-theme-surface border-teal-500/30"
           >
             <div className="space-y-3 relative z-10">
               <div className="w-12 h-12 rounded-2xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-400 shadow-inner">
@@ -280,21 +242,17 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-teal-400 bg-teal-950/60 px-2 py-0.5 rounded-full border border-teal-800/60">
                   {t.parkCleanupTag}
                 </span>
-                <h3 className="text-lg font-black mt-1.5" style={{ color: 'var(--text-primary)' }}>{t.parkCleanupTitle}</h3>
-                <p className="text-xs leading-relaxed mt-1" style={{ color: 'var(--text-muted)' }}>
+                <h3 className="text-lg font-black mt-1.5 text-theme-primary">{t.parkCleanupTitle}</h3>
+                <p className="text-xs leading-relaxed mt-1 text-theme-muted">
                   {t.parkCleanupDesc}
                 </p>
               </div>
 
               {/* Highscore */}
               <div 
-                className="rounded-xl p-2.5 border flex items-center justify-between text-xs"
-                style={{
-                  backgroundColor: 'var(--bg-primary)',
-                  borderColor: 'var(--border)',
-                }}
+                className="rounded-xl p-2.5 border border-theme flex items-center justify-between text-xs glass-panel bg-theme-primary"
               >
-                <span className="font-semibold flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
+                <span className="font-semibold flex items-center gap-1.5 text-theme-secondary">
                   <Trophy className="w-3.5 h-3.5 text-amber-400" /> {t.bestScore}:
                 </span>
                 <span className="font-extrabold text-amber-400">{user.highScores.parkCleanup} {t.points}</span>
@@ -317,62 +275,46 @@ export function GamesView({ user, onUpdateGameResults }: GamesViewProps) {
         {/* Educational Waste Guide Section */}
         <div 
           id="games-tour-guide"
-          className="border rounded-3xl p-5 space-y-4 backdrop-blur-md shadow-sm"
-          style={{
-            backgroundColor: 'var(--surface)',
-            borderColor: 'var(--border)',
-          }}
+          className="border border-theme rounded-3xl p-5 space-y-4 glass-panel bg-theme-surface shadow-sm"
         >
           <div className="flex items-center gap-2">
-            <BookOpen className="w-5 h-5" style={{ color: 'var(--accent)' }} />
-            <h2 className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>{t.quickBinInfoTitle}</h2>
+            <BookOpen className="w-5 h-5 text-theme-accent" />
+            <h2 className="text-sm font-black text-theme-primary">{t.quickBinInfoTitle}</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div 
-              className="p-3.5 rounded-2xl space-y-1.5 border"
-              style={{
-                backgroundColor: 'rgba(16, 185, 129, 0.08)',
-                borderColor: 'rgba(16, 185, 129, 0.25)',
-              }}
+              className="p-3.5 rounded-2xl space-y-1.5 border border-emerald-500/20 bg-emerald-500/10"
             >
               <div className="font-bold text-emerald-500 flex items-center gap-2">
                 <Leaf className="w-4 h-4" />
                 <span>{t.greenBin} ({t.organic})</span>
               </div>
-              <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-[11px] leading-relaxed text-theme-secondary">
                 {t.organicDesc}
               </p>
             </div>
 
             <div 
-              className="p-3.5 rounded-2xl space-y-1.5 border"
-              style={{
-                backgroundColor: 'rgba(56, 189, 248, 0.08)',
-                borderColor: 'rgba(56, 189, 248, 0.25)',
-              }}
+              className="p-3.5 rounded-2xl space-y-1.5 border border-sky-500/20 bg-sky-500/10"
             >
               <div className="font-bold text-sky-400 flex items-center gap-2">
                 <Recycle className="w-4 h-4" />
                 <span>{t.whiteBin} ({t.recyclable})</span>
               </div>
-              <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-[11px] leading-relaxed text-theme-secondary">
                 {t.recyclableDesc}
               </p>
             </div>
 
             <div 
-              className="p-3.5 rounded-2xl space-y-1.5 border"
-              style={{
-                backgroundColor: 'rgba(100, 116, 139, 0.08)',
-                borderColor: 'rgba(100, 116, 139, 0.25)',
-              }}
+              className="p-3.5 rounded-2xl space-y-1.5 border border-slate-500/20 bg-slate-500/10"
             >
               <div className="font-bold text-slate-400 flex items-center gap-2">
                 <Trash2 className="w-4 h-4 text-slate-400" />
                 <span>{t.blackBin} ({t.nonUsable})</span>
               </div>
-              <p className="text-[11px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-[11px] leading-relaxed text-theme-secondary">
                 {t.nonUsableDesc}
               </p>
             </div>

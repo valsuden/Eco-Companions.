@@ -9,7 +9,10 @@ import {
   Coins,
   Flame,
   Backpack,
-  Languages
+  Languages,
+  Target,
+  Boxes,
+  BookOpen
 } from 'lucide-react';
 import { ViewType, User } from '../types';
 import { sound } from '../utils/sound';
@@ -33,11 +36,15 @@ export const Navigation: React.FC<NavigationProps> = ({ currentView, onNavigate,
 
   const navItems: { id: ViewType; label: string; icon: typeof Home; badge?: string }[] = [
     { id: 'home', label: t.home, icon: Home },
+    { id: 'quests', label: user.language === 'es' ? 'Metas y Logros' : 'Quests', icon: Target },
+    { id: 'collection', label: user.language === 'es' ? 'Colección' : 'Collection', icon: Boxes },
+    { id: 'pet-diary', label: user.language === 'es' ? 'Diario Mascota' : 'Pet Diary', icon: BookOpen },
     { id: 'inventory', label: t.inventory, icon: Backpack },
     { id: 'games', label: t.games, icon: Gamepad2, badge: '3' },
     { id: 'store', label: t.store, icon: ShoppingBag },
+    { id: 'ecopass', label: user.language === 'es' ? 'Pase Gratis' : 'Eco Pass', icon: Coins },
     { id: 'profile', label: t.profile, icon: UserIcon },
-    { id: 'learn-english', label: user.language === 'es' ? 'Aprender Inglés' : 'Learn English', icon: Languages },
+    { id: 'learn-english', label: user.language === 'es' ? 'Inglés' : 'English', icon: Languages },
     { id: 'settings', label: t.settings, icon: SettingsIcon },
   ];
 

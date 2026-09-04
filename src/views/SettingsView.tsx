@@ -62,43 +62,31 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
   return (
     <div 
-      className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none "
-      style={{
-        backgroundColor: 'var(--bg-primary)',
-        color: 'var(--text-primary)',
-      }}
+      className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary"
     >
       <div className="max-w-3xl mx-auto space-y-6 pb-24 md:pb-8">
         {/* Header */}
         <div 
-          className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 gap-4"
-          style={{ borderColor: 'var(--border)' }}
+          className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-theme pb-4 gap-4"
         >
           <div className="flex items-center gap-3">
             <button
               onClick={onBack}
-              className="md:hidden p-2 rounded-xl border cursor-pointer active:scale-95"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'var(--border)',
-                color: 'var(--text-secondary)',
-              }}
+              className="md:hidden p-2 rounded-xl border border-theme cursor-pointer active:scale-95 glass-panel bg-theme-surface text-theme-secondary"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <div>
               <div className="flex items-center gap-2">
-                <SettingsIcon className="w-6 h-6" style={{ color: 'var(--accent)' }} />
+                <SettingsIcon className="w-6 h-6 text-theme-accent" />
                 <h1 
-                  className="text-xl sm:text-2xl font-black"
-                  style={{ color: 'var(--text-primary)' }}
+                  className="text-xl sm:text-2xl font-black text-theme-primary"
                 >
                   {t.settingsTitle}
                 </h1>
               </div>
               <p 
-                className="text-xs mt-1"
-                style={{ color: 'var(--text-secondary)' }}
+                className="text-xs mt-1 text-theme-secondary"
               >
                 {t.settingsSubtitle}
               </p>
@@ -107,22 +95,14 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
           {/* Quick Sub-Navigation Pills */}
           <div 
-            className="flex items-center gap-1.5 p-1 rounded-2xl border overflow-x-auto no-scrollbar"
-            style={{
-              backgroundColor: 'var(--surface)',
-              borderColor: 'var(--border)',
-            }}
+            className="flex items-center gap-1.5 p-1 rounded-2xl border border-theme overflow-x-auto no-scrollbar glass-panel bg-theme-surface"
           >
             {/* 1. SISTEMA / SYSTEM (FIRST) */}
             <button
               onClick={() => { sound.playClick(); setActiveTab('system'); }}
               className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                activeTab === 'system' ? 'shadow-md scale-100' : 'opacity-70 hover:opacity-100'
+                activeTab === 'system' ? 'shadow-md scale-100 bg-theme-accent text-white' : 'opacity-70 hover:opacity-100 text-theme-secondary'
               }`}
-              style={{
-                backgroundColor: activeTab === 'system' ? 'var(--accent)' : 'transparent',
-                color: activeTab === 'system' ? '#ffffff' : 'var(--text-secondary)',
-              }}
             >
               <Sliders className="w-3.5 h-3.5" />
               <span>{currentLang === 'es' ? 'Sistema' : 'System'}</span>
@@ -132,12 +112,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <button
               onClick={() => { sound.playClick(); setActiveTab('language'); }}
               className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                activeTab === 'language' ? 'shadow-md scale-100' : 'opacity-70 hover:opacity-100'
+                activeTab === 'language' ? 'shadow-md scale-100 bg-theme-accent text-white' : 'opacity-70 hover:opacity-100 text-theme-secondary'
               }`}
-              style={{
-                backgroundColor: activeTab === 'language' ? 'var(--accent)' : 'transparent',
-                color: activeTab === 'language' ? '#ffffff' : 'var(--text-secondary)',
-              }}
             >
               <Languages className="w-3.5 h-3.5" />
               <span>{currentLang === 'es' ? 'Idioma' : 'Language'}</span>
@@ -147,12 +123,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <button
               onClick={() => { sound.playClick(); setActiveTab('appearance'); }}
               className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                activeTab === 'appearance' ? 'shadow-md scale-100' : 'opacity-70 hover:opacity-100'
+                activeTab === 'appearance' ? 'shadow-md scale-100 bg-theme-accent text-white' : 'opacity-70 hover:opacity-100 text-theme-secondary'
               }`}
-              style={{
-                backgroundColor: activeTab === 'appearance' ? 'var(--accent)' : 'transparent',
-                color: activeTab === 'appearance' ? '#ffffff' : 'var(--text-secondary)',
-              }}
             >
               <Palette className="w-3.5 h-3.5" />
               <span>{currentLang === 'es' ? 'Apariencia' : 'Appearance'}</span>
@@ -162,12 +134,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <button
               onClick={() => { sound.playClick(); setActiveTab('all'); }}
               className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer shrink-0 ${
-                activeTab === 'all' ? 'shadow-md' : 'opacity-70 hover:opacity-100'
+                activeTab === 'all' ? 'shadow-md bg-theme-accent text-white' : 'opacity-70 hover:opacity-100 text-theme-secondary'
               }`}
-              style={{
-                backgroundColor: activeTab === 'all' ? 'var(--accent)' : 'transparent',
-                color: activeTab === 'all' ? '#ffffff' : 'var(--text-secondary)',
-              }}
             >
               <span>{currentLang === 'es' ? 'Todo' : 'All'}</span>
             </button>
@@ -181,17 +149,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <div className="space-y-6">
             {/* Audio & Performance */}
             <div 
-              className="border rounded-3xl p-5 space-y-4 shadow-xl backdrop-blur-md"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'var(--border)',
-              }}
+              className="border border-theme rounded-3xl p-5 space-y-4 shadow-xl glass-panel bg-theme-surface"
             >
               <div className="flex items-center gap-2">
-                <Sliders className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+                <Sliders className="w-4 h-4 text-theme-accent" />
                 <h2 
-                  className="text-xs font-black uppercase tracking-wider"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="text-xs font-black uppercase tracking-wider text-theme-secondary"
                 >
                   {t.systemOptions}
                 </h2>
@@ -200,24 +163,18 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               <div className="space-y-3 text-sm">
                 {/* Sound Effects */}
                 <div 
-                  className="flex items-center justify-between p-3 rounded-2xl border"
-                  style={{
-                    backgroundColor: 'var(--bg-primary)',
-                    borderColor: 'var(--border)',
-                  }}
+                  className="flex items-center justify-between p-3 rounded-2xl border border-theme glass-panel bg-theme-primary"
                 >
                   <div className="flex items-center gap-3">
-                    <Volume2 className="w-5 h-5" style={{ color: 'var(--accent)' }} />
+                    <Volume2 className="w-5 h-5 text-theme-accent" />
                     <div>
                       <div 
-                        className="font-bold text-xs"
-                        style={{ color: 'var(--text-primary)' }}
+                        className="font-bold text-xs text-theme-primary"
                       >
                         {t.soundEffects}
                       </div>
                       <div 
-                        className="text-[10px]"
-                        style={{ color: 'var(--text-muted)' }}
+                        className="text-[10px] text-theme-muted"
                       >
                         {t.soundEffectsDesc}
                       </div>
@@ -231,10 +188,9 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       sound.setEnabled(next);
                       if (next) sound.playClick();
                     }}
-                    className="w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0"
-                    style={{
-                      backgroundColor: user.soundEnabled ? 'var(--accent)' : 'var(--border)',
-                    }}
+                    className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ${
+                      user.soundEnabled ? 'bg-theme-accent' : 'bg-theme-border'
+                    }`}
                   >
                     <div
                       className={`w-5 h-5 rounded-full bg-white transition-transform absolute top-0.5 ${
@@ -246,24 +202,18 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
                 {/* High Performance Mode */}
                 <div 
-                  className="flex items-center justify-between p-3 rounded-2xl border"
-                  style={{
-                    backgroundColor: 'var(--bg-primary)',
-                    borderColor: 'var(--border)',
-                  }}
+                  className="flex items-center justify-between p-3 rounded-2xl border border-theme glass-panel bg-theme-primary"
                 >
                   <div className="flex items-center gap-3">
                     <Sparkles className="w-5 h-5 text-amber-400" />
                     <div>
                       <div 
-                        className="font-bold text-xs"
-                        style={{ color: 'var(--text-primary)' }}
+                        className="font-bold text-xs text-theme-primary"
                       >
                         {t.highPerformance}
                       </div>
                       <div 
-                        className="text-[10px]"
-                        style={{ color: 'var(--text-muted)' }}
+                        className="text-[10px] text-theme-muted"
                       >
                         {t.highPerformanceDesc}
                       </div>
@@ -275,10 +225,9 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       sound.playClick();
                       onUpdateUser({ animationsEnabled: !user.animationsEnabled });
                     }}
-                    className="w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0"
-                    style={{
-                      backgroundColor: user.animationsEnabled ? 'var(--accent)' : 'var(--border)',
-                    }}
+                    className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ${
+                      user.animationsEnabled ? 'bg-theme-accent' : 'bg-theme-border'
+                    }`}
                   >
                     <div
                       className={`w-5 h-5 rounded-full bg-white transition-transform absolute top-0.5 ${
@@ -290,24 +239,18 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
                 {/* Educational Notifications */}
                 <div 
-                  className="flex items-center justify-between p-3 rounded-2xl border"
-                  style={{
-                    backgroundColor: 'var(--bg-primary)',
-                    borderColor: 'var(--border)',
-                  }}
+                  className="flex items-center justify-between p-3 rounded-2xl border border-theme glass-panel bg-theme-primary"
                 >
                   <div className="flex items-center gap-3">
                     <Bell className="w-5 h-5" style={{ color: 'var(--success)' }} />
                     <div>
                       <div 
-                        className="font-bold text-xs"
-                        style={{ color: 'var(--text-primary)' }}
+                        className="font-bold text-xs text-theme-primary"
                       >
                         {t.educationalTips}
                       </div>
                       <div 
-                        className="text-[10px]"
-                        style={{ color: 'var(--text-muted)' }}
+                        className="text-[10px] text-theme-muted"
                       >
                         {t.educationalTipsDesc}
                       </div>
@@ -319,10 +262,9 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       sound.playClick();
                       onUpdateUser({ notificationsEnabled: !user.notificationsEnabled });
                     }}
-                    className="w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0"
-                    style={{
-                      backgroundColor: user.notificationsEnabled ? 'var(--accent)' : 'var(--border)',
-                    }}
+                    className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ${
+                      user.notificationsEnabled ? 'bg-theme-accent' : 'bg-theme-border'
+                    }`}
                   >
                     <div
                       className={`w-5 h-5 rounded-full bg-white transition-transform absolute top-0.5 ${
@@ -336,17 +278,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
             {/* Player Profile & Pet Identity */}
             <div 
-              className="border rounded-3xl p-5 space-y-4 shadow-xl backdrop-blur-md"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'var(--border)',
-              }}
+              className="border border-theme rounded-3xl p-5 space-y-4 shadow-xl glass-panel bg-theme-surface"
             >
               <div className="flex items-center gap-2">
-                <UserIcon className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+                <UserIcon className="w-4 h-4 text-theme-accent" />
                 <h2 
-                  className="text-xs font-black uppercase tracking-wider"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="text-xs font-black uppercase tracking-wider text-theme-secondary"
                 >
                   {t.playerProfile}
                 </h2>
@@ -354,8 +291,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
               <form onSubmit={handleSavePlayerName} className="space-y-2 max-w-md">
                 <label 
-                  className="text-xs font-bold"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="text-xs font-bold text-theme-secondary"
                 >
                   {t.playerNameLabel}
                 </label>
@@ -365,20 +301,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                     value={playerNameInput}
                     onChange={(e) => setPlayerNameInput(e.target.value)}
                     maxLength={24}
-                    className="flex-1 rounded-xl px-3 py-2 text-xs border focus:outline-none"
-                    style={{
-                      backgroundColor: 'var(--bg-primary)',
-                      borderColor: 'var(--border)',
-                      color: 'var(--text-primary)',
-                    }}
+                    className="flex-1 rounded-xl px-3 py-2 text-xs border border-theme focus:outline-none glass-panel bg-theme-primary text-theme-primary"
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 font-bold text-xs rounded-xl cursor-pointer shadow-md active:scale-95 transition-transform"
-                    style={{
-                      backgroundColor: 'var(--accent)',
-                      color: '#ffffff',
-                    }}
+                    className="px-4 py-2 font-bold text-xs rounded-xl cursor-pointer shadow-md active:scale-95 transition-transform bg-theme-accent text-white"
                   >
                     {t.save}
                   </button>
@@ -386,12 +313,11 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </form>
 
               {/* Pet Species Selection */}
-              <div className="pt-3 border-t space-y-2.5" style={{ borderColor: 'var(--border)' }}>
+              <div className="pt-3 border-t border-theme space-y-2.5">
                 <label 
-                  className="text-xs font-bold flex items-center gap-1.5"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="text-xs font-bold flex items-center gap-1.5 text-theme-secondary"
                 >
-                  <Sparkles className="w-3.5 h-3.5" style={{ color: 'var(--accent)' }} />
+                  <Sparkles className="w-3.5 h-3.5 text-theme-accent" />
                   <span>{currentLang === 'es' ? 'Especie del Guardián Ecológico' : 'Eco-Guardian Species'}</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -407,30 +333,25 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                             onUpdatePetInfo({ species: sp.id });
                           }
                         }}
-                        className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 ${
-                          isSelected ? 'shadow-md ring-2' : 'opacity-75 hover:opacity-100'
+                        className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 glass-panel ${
+                          isSelected ? 'shadow-md ring-2 ring-theme-accent bg-theme-surface border-theme-accent' : 'opacity-75 hover:opacity-100 bg-theme-primary border-theme'
                         }`}
-                        style={{
-                          backgroundColor: isSelected ? 'var(--surface)' : 'var(--bg-primary)',
-                          borderColor: isSelected ? 'var(--accent)' : 'var(--border)',
-                          ...(isSelected ? { ringColor: 'var(--accent)' } : {}),
-                        }}
                       >
                         <div className="flex items-center justify-between">
                           <span className="text-2xl">{sp.avatarEmoji}</span>
                           {isSelected && (
-                            <span className="text-[10px] px-2 py-0.5 rounded-full font-black text-white" style={{ backgroundColor: 'var(--accent)' }}>
+                            <span className="text-[10px] px-2 py-0.5 rounded-full font-black text-white bg-theme-accent">
                               {currentLang === 'es' ? 'Activo' : 'Active'}
                             </span>
                           )}
                         </div>
                         <div>
-                          <div className="font-black text-xs" style={{ color: 'var(--text-primary)' }}>
+                          <div className="font-black text-xs text-theme-primary">
                             {currentLang === 'es' 
                               ? (sp.id === 'cat' ? 'Gato Místico' : sp.id === 'dog' ? 'Perro Scout' : 'Conejo Botánico')
                               : (sp.id === 'cat' ? 'Mystic Feline' : sp.id === 'dog' ? 'Eco Scout Dog' : 'Garden Rabbit')}
                           </div>
-                          <div className="text-[10px] mt-0.5 line-clamp-1" style={{ color: 'var(--text-muted)' }}>
+                          <div className="text-[10px] mt-0.5 line-clamp-1 text-theme-muted">
                             {currentLang === 'es' ? sp.tagline : sp.personality}
                           </div>
                         </div>
@@ -441,10 +362,9 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </div>
 
               {/* Pet Name Setting */}
-              <div className="pt-2 border-t space-y-2 max-w-md" style={{ borderColor: 'var(--border)' }}>
+              <div className="pt-2 border-t border-theme space-y-2 max-w-md">
                 <label 
-                  className="text-xs font-bold flex items-center gap-1.5"
-                  style={{ color: 'var(--text-secondary)' }}
+                  className="text-xs font-bold flex items-center gap-1.5 text-theme-secondary"
                 >
                   <Heart className="w-3.5 h-3.5 text-rose-400" />
                   <span>{currentLang === 'es' ? 'Nombre de la Mascota' : 'Pet Name'}</span>
@@ -459,12 +379,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                       }
                     }}
                     maxLength={20}
-                    className="flex-1 rounded-xl px-3 py-2 text-xs border focus:outline-none"
-                    style={{
-                      backgroundColor: 'var(--bg-primary)',
-                      borderColor: 'var(--border)',
-                      color: 'var(--text-primary)',
-                    }}
+                    className="flex-1 rounded-xl px-3 py-2 text-xs border border-theme focus:outline-none glass-panel bg-theme-primary text-theme-primary"
                   />
                 </div>
               </div>
@@ -472,19 +387,14 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
             {/* About Project */}
             <div 
-              className="border rounded-3xl p-5 space-y-2 backdrop-blur-md"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'var(--border-accent)',
-              }}
+              className="border border-theme-accent rounded-3xl p-5 space-y-2 glass-panel bg-theme-surface"
             >
-              <div className="flex items-center gap-2" style={{ color: 'var(--accent)' }}>
+              <div className="flex items-center gap-2 text-theme-accent">
                 <Info className="w-5 h-5" />
                 <h3 className="text-sm font-black">{t.aboutProject}</h3>
               </div>
               <p 
-                className="text-xs leading-relaxed"
-                style={{ color: 'var(--text-secondary)' }}
+                className="text-xs leading-relaxed text-theme-secondary"
               >
                 {t.aboutProjectDesc}
               </p>
@@ -492,19 +402,14 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
             {/* Danger Zone: Reset Progress */}
             <div 
-              className="border rounded-3xl p-5 space-y-3"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'rgba(239, 68, 68, 0.3)',
-              }}
+              className="border border-rose-500/30 rounded-3xl p-5 space-y-3 glass-panel bg-theme-surface"
             >
               <div className="flex items-center gap-2 text-rose-400">
                 <ShieldAlert className="w-5 h-5" />
                 <h3 className="text-xs font-black uppercase tracking-wider">{t.dangerZone}</h3>
               </div>
               <p 
-                className="text-xs"
-                style={{ color: 'var(--text-muted)' }}
+                className="text-xs text-theme-muted"
               >
                 {t.dangerZoneDesc}
               </p>
@@ -525,25 +430,19 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         {/* ========================================================================= */}
         {(activeTab === 'language' || activeTab === 'all') && (
           <div 
-            className="border rounded-3xl p-5 space-y-4 shadow-xl backdrop-blur-md"
-            style={{
-              backgroundColor: 'var(--surface)',
-              borderColor: 'var(--border)',
-            }}
+            className="border border-theme rounded-3xl p-5 space-y-4 shadow-xl glass-panel bg-theme-surface"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <Languages className="w-5 h-5" style={{ color: 'var(--accent)' }} />
+                <Languages className="w-5 h-5 text-theme-accent" />
                 <div>
                   <h2 
-                    className="text-sm font-black"
-                    style={{ color: 'var(--text-primary)' }}
+                    className="text-sm font-black text-theme-primary"
                   >
                     {t.languageLabel}
                   </h2>
                   <p 
-                    className="text-[11px]"
-                    style={{ color: 'var(--text-secondary)' }}
+                    className="text-[11px] text-theme-secondary"
                   >
                     {t.languageDesc}
                   </p>
@@ -555,75 +454,52 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               {/* English */}
               <button
                 onClick={() => handleLanguageChange('en')}
-                className={`p-3.5 rounded-2xl border flex items-center justify-between transition-all cursor-pointer ${
+                className={`p-3.5 rounded-2xl border flex items-center justify-between transition-all cursor-pointer glass-panel ${
                   currentLang === 'en'
-                    ? 'ring-2 shadow-md'
-                    : 'hover:opacity-85'
+                    ? 'ring-2 shadow-md bg-theme-surface border-theme-accent shadow-theme-glow'
+                    : 'hover:opacity-85 bg-theme-primary border-theme'
                 }`}
-                style={{
-                  backgroundColor: currentLang === 'en' ? 'var(--bg-secondary)' : 'var(--bg-primary)',
-                  borderColor: currentLang === 'en' ? 'var(--accent)' : 'var(--border)',
-                  boxShadow: currentLang === 'en' ? '0 0 15px var(--glow)' : undefined,
-                }}
               >
                 <div className="flex items-center gap-2.5">
                   <div 
-                    className="w-8 h-8 rounded-xl border flex items-center justify-center font-black text-xs"
-                    style={{
-                      backgroundColor: 'var(--bg-primary)',
-                      borderColor: 'var(--border-accent)',
-                      color: 'var(--accent)',
-                    }}
+                    className="w-8 h-8 rounded-xl border border-theme-accent flex items-center justify-center font-black text-xs glass-panel bg-theme-primary text-theme-accent"
                   >
                     EN
                   </div>
                   <div className="text-left">
                     <div 
-                      className="font-extrabold text-xs"
-                      style={{ color: 'var(--text-primary)' }}
+                      className="font-extrabold text-xs text-theme-primary"
                     >
                       English
                     </div>
                     <div 
-                      className="text-[10px] font-semibold"
-                      style={{ color: 'var(--accent)' }}
+                      className="text-[10px] font-semibold text-theme-accent"
                     >
                       (Default)
                     </div>
                   </div>
                 </div>
-                {currentLang === 'en' && <Check className="w-4 h-4" style={{ color: 'var(--accent)' }} />}
+                {currentLang === 'en' && <Check className="w-4 h-4 text-theme-accent" />}
               </button>
 
               {/* Spanish */}
               <button
                 onClick={() => handleLanguageChange('es')}
-                className={`p-3.5 rounded-2xl border flex items-center justify-between transition-all cursor-pointer ${
+                className={`p-3.5 rounded-2xl border flex items-center justify-between transition-all cursor-pointer glass-panel ${
                   currentLang === 'es'
-                    ? 'ring-2 shadow-md'
-                    : 'hover:opacity-85'
+                    ? 'ring-2 shadow-md bg-theme-surface border-theme-accent shadow-theme-glow'
+                    : 'hover:opacity-85 bg-theme-primary border-theme'
                 }`}
-                style={{
-                  backgroundColor: currentLang === 'es' ? 'var(--bg-secondary)' : 'var(--bg-primary)',
-                  borderColor: currentLang === 'es' ? 'var(--accent)' : 'var(--border)',
-                  boxShadow: currentLang === 'es' ? '0 0 15px var(--glow)' : undefined,
-                }}
               >
                 <div className="flex items-center gap-2.5">
                   <div 
-                    className="w-8 h-8 rounded-xl border flex items-center justify-center font-black text-xs"
-                    style={{
-                      backgroundColor: 'var(--bg-primary)',
-                      borderColor: 'var(--border-accent)',
-                      color: 'var(--success)',
-                    }}
+                    className="w-8 h-8 rounded-xl border border-theme-accent flex items-center justify-center font-black text-xs glass-panel bg-theme-primary text-theme-accent"
                   >
                     ES
                   </div>
                   <div className="text-left">
                     <div 
-                      className="font-extrabold text-xs"
-                      style={{ color: 'var(--text-primary)' }}
+                      className="font-extrabold text-xs text-theme-primary"
                     >
                       Español
                     </div>
@@ -635,7 +511,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                     </div>
                   </div>
                 </div>
-                {currentLang === 'es' && <Check className="w-4 h-4" style={{ color: 'var(--accent)' }} />}
+                {currentLang === 'es' && <Check className="w-4 h-4 text-theme-accent" />}
               </button>
             </div>
           </div>

@@ -385,16 +385,16 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
     <AnimatePresence>
       <div 
         id="learn-english-modal-backdrop"
-        className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 select-none overflow-y-auto"
+        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 select-none overflow-y-auto"
       >
         <motion.div
           initial={{ scale: 0.92, opacity: 0, y: 15 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.92, opacity: 0, y: 15 }}
-          className="bg-slate-900 border border-cyan-500/40 rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden text-slate-100 relative my-auto flex flex-col max-h-[90vh]"
+          className="glass-card border border-theme-accent/40 rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden text-theme-primary relative my-auto flex flex-col max-h-[90vh] bg-theme-modal"
         >
           {/* Header */}
-          <div className="bg-slate-950/80 p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between shrink-0">
+          <div className="bg-theme-surface p-4 sm:p-5 border-b border-theme flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-2xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-400">
                 <Languages className="w-5 h-5" />
@@ -416,20 +416,20 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
 
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-100 flex items-center justify-center transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-full bg-theme-surface hover:bg-theme-surface-hover text-theme-muted hover:text-theme-primary flex items-center justify-center transition-colors cursor-pointer border border-theme"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex border-b border-slate-800 bg-slate-950/40 px-4 pt-2 gap-2 shrink-0">
+          <div className="flex border-b border-theme bg-theme-surface px-4 pt-2 gap-2 shrink-0">
             <button
               onClick={() => setActiveTab('quiz')}
               className={`pb-2.5 px-3 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
                 activeTab === 'quiz'
-                  ? 'border-cyan-400 text-cyan-400'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-theme-accent text-theme-accent'
+                  : 'border-transparent text-theme-muted hover:text-theme-primary'
               }`}
             >
               <Sparkles className="w-3.5 h-3.5" />
@@ -440,8 +440,8 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
               onClick={() => setActiveTab('dictionary')}
               className={`pb-2.5 px-3 text-xs font-black uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border-b-2 ${
                 activeTab === 'dictionary'
-                  ? 'border-cyan-400 text-cyan-400'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-theme-accent text-theme-accent'
+                  : 'border-transparent text-theme-muted hover:text-theme-primary'
               }`}
             >
               <BookA className="w-3.5 h-3.5" />
@@ -463,54 +463,54 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
                       {isSpanish ? 'Aciertos' : 'Score'}: {score}
                     </span>
                   </div>
-                  <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-theme-surface rounded-full overflow-hidden border border-theme">
                     <motion.div
-                      className="h-full bg-gradient-to-r from-cyan-500 to-emerald-400"
+                      className="h-full bg-theme-accent"
                       animate={{ width: `${((currentLessonIdx + 1) / ENGLISH_LESSONS.length) * 100}%` }}
                     />
                   </div>
 
                   {/* Main Word Card */}
-                  <div className="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 text-center space-y-2 relative overflow-hidden">
+                  <div className="glass-panel rounded-2xl p-4 text-center space-y-2 relative overflow-hidden bg-theme-surface">
                     <div className="text-2xl">{currentLesson.iconName}</div>
-                    <div className="text-[11px] uppercase font-black tracking-wider text-cyan-400">
+                    <div className="text-[11px] uppercase font-black tracking-wider text-theme-accent">
                       {currentLesson.topic}
                     </div>
 
                     <div className="flex items-center justify-center gap-2">
-                      <span className="text-xl sm:text-2xl font-black text-slate-100 tracking-wide">
+                      <span className="text-xl sm:text-2xl font-black text-theme-primary tracking-wide">
                         {currentLesson.wordEn}
                       </span>
                       <button
                         onClick={() => handleSpeak(currentLesson.wordEn)}
-                        className="p-1.5 rounded-full bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-full bg-theme-accent/20 hover:bg-theme-accent/30 text-theme-accent transition-colors cursor-pointer"
                         title={isSpanish ? 'Escuchar pronunciación' : 'Listen to pronunciation'}
                       >
                         <Volume2 className="w-4 h-4" />
                       </button>
                     </div>
 
-                    <div className="text-xs text-cyan-400 font-mono">
+                    <div className="text-xs text-theme-accent font-mono">
                       {currentLesson.phonetic}
                     </div>
 
-                    <div className="text-xs font-bold text-emerald-400 pt-1 border-t border-slate-800">
+                    <div className="text-xs font-bold text-emerald-400 pt-1 border-t border-theme">
                       {isSpanish ? 'Español' : 'Spanish'}: {currentLesson.wordEs}
                     </div>
 
                     {/* Example sentence */}
-                    <div className="bg-slate-900/90 rounded-xl p-3 text-xs space-y-1 text-left border border-slate-800">
-                      <div className="text-slate-200 font-semibold flex items-center justify-between">
+                    <div className="bg-theme-surface-hover rounded-xl p-3 text-xs space-y-1 text-left border border-theme">
+                      <div className="text-theme-primary font-semibold flex items-center justify-between">
                         <span>"{currentLesson.sentenceEn}"</span>
                         <button
                           onClick={() => handleSpeak(currentLesson.sentenceEn)}
-                          className="text-cyan-400 hover:text-cyan-300 p-0.5 cursor-pointer"
+                          className="text-theme-accent hover:opacity-80 p-0.5 cursor-pointer"
                           title="Play sentence"
                         >
                           <Volume2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      <div className="text-slate-400 text-[11px] italic">
+                      <div className="text-theme-muted text-[11px] italic">
                         "{currentLesson.sentenceEs}"
                       </div>
                     </div>
@@ -518,7 +518,7 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
 
                   {/* Quiz Question */}
                   <div className="space-y-2 pt-1">
-                    <div className="text-xs sm:text-sm font-black text-slate-200 flex items-center gap-1.5">
+                    <div className="text-xs sm:text-sm font-black text-theme-primary flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
                       <span>{isSpanish ? currentLesson.questionEs : currentLesson.questionEn}</span>
                     </div>
@@ -527,15 +527,15 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
                       {(isSpanish ? currentLesson.optionsEs : currentLesson.optionsEn).map((opt, i) => {
                         const isSelected = selectedOption === i;
                         const isTheCorrectOne = i === currentLesson.correctIndex;
-                        let btnStyle = 'bg-slate-800/80 hover:bg-slate-800 border-slate-700 text-slate-200';
+                        let btnStyle = 'bg-theme-surface hover:bg-theme-surface-hover border-theme text-theme-primary';
 
                         if (isAnswered) {
                           if (isTheCorrectOne) {
-                            btnStyle = 'bg-emerald-950/80 border-emerald-500 text-emerald-300 font-black shadow-sm';
+                            btnStyle = 'bg-emerald-500/20 border-emerald-500 text-emerald-400 font-black shadow-sm';
                           } else if (isSelected && !isTheCorrectOne) {
-                            btnStyle = 'bg-rose-950/80 border-rose-500 text-rose-300 line-through';
+                            btnStyle = 'bg-rose-500/20 border-rose-500 text-rose-400 line-through';
                           } else {
-                            btnStyle = 'bg-slate-900/40 border-slate-800 text-slate-500 opacity-60';
+                            btnStyle = 'bg-theme-surface/50 border-theme text-theme-muted opacity-60';
                           }
                         }
 
@@ -579,7 +579,7 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
 
                       <button
                         onClick={handleNext}
-                        className="w-full py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-cyan-600/30 cursor-pointer"
+                        className="w-full py-3 rounded-2xl bg-theme-accent hover:opacity-90 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md cursor-pointer border border-theme-accent"
                       >
                         <span>
                           {currentLessonIdx < ENGLISH_LESSONS.length - 1
@@ -614,12 +614,12 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
                   </div>
 
                   {/* Rewards Box */}
-                  <div className="bg-slate-950 rounded-2xl border border-slate-800 p-4 flex items-center justify-around">
-                    <div className="flex items-center gap-2 text-cyan-400 font-black text-sm">
-                      <Zap className="w-5 h-5 text-cyan-400 fill-cyan-400" />
+                  <div className="bg-theme-surface rounded-2xl border border-theme p-4 flex items-center justify-around">
+                    <div className="flex items-center gap-2 text-theme-accent font-black text-sm">
+                      <Zap className="w-5 h-5 text-theme-accent fill-theme-accent" />
                       <span>+{45 + score * 12} XP</span>
                     </div>
-                    <div className="w-[1px] h-8 bg-slate-800" />
+                    <div className="w-[1px] h-8 bg-theme" />
                     <div className="flex items-center gap-2 text-amber-400 font-black text-sm">
                       <Coins className="w-5 h-5 text-amber-400" />
                       <span>+{25 + score * 8} {t.coins}</span>
@@ -629,14 +629,14 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
                   <div className="flex gap-2">
                     <button
                       onClick={handleRestart}
-                      className="flex-1 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center gap-2 cursor-pointer border border-slate-700"
+                      className="flex-1 py-3 rounded-2xl bg-theme-surface hover:bg-theme-surface-hover text-theme-primary font-bold text-xs flex items-center justify-center gap-2 cursor-pointer border border-theme"
                     >
                       <RotateCcw className="w-4 h-4" />
                       <span>{isSpanish ? 'Repetir' : 'Restart'}</span>
                     </button>
                     <button
                       onClick={onClose}
-                      className="flex-1 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-cyan-600/30"
+                      className="flex-1 py-3 rounded-2xl bg-theme-accent hover:opacity-90 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-md"
                     >
                       <span>{t.continue}</span>
                     </button>
@@ -649,13 +649,13 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
                 {/* Search & Category Filter */}
                 <div className="flex flex-col sm:flex-row gap-2">
                   <div className="relative flex-1">
-                    <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-theme-muted" />
                     <input
                       type="text"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       placeholder={isSpanish ? 'Buscar palabra o término...' : 'Search vocabulary...'}
-                      className="w-full pl-9 pr-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+                      className="w-full pl-9 pr-3 py-2 bg-theme-surface border border-theme rounded-xl text-xs text-theme-primary placeholder-theme-muted focus:outline-none focus:border-theme-accent"
                     />
                   </div>
 
@@ -672,8 +672,8 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
                         onClick={() => setSelectedVocabCategory(cat.id)}
                         className={`px-2.5 py-1.5 rounded-lg whitespace-nowrap cursor-pointer transition-all ${
                           selectedVocabCategory === cat.id
-                            ? 'bg-cyan-500 text-slate-950 font-black'
-                            : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                            ? 'bg-theme-accent text-white font-black'
+                            : 'bg-theme-surface text-theme-muted hover:bg-theme-surface-hover hover:text-theme-primary border border-theme'
                         }`}
                       >
                         {cat.label}
@@ -687,40 +687,40 @@ export const LearnEnglishModal: React.FC<LearnEnglishModalProps> = ({
                   {filteredVocab.map((voc) => (
                     <div
                       key={voc.id}
-                      className="p-3.5 bg-slate-950/80 border border-slate-800 rounded-2xl space-y-2 hover:border-cyan-500/40 transition-colors"
+                      className="p-3.5 bg-theme-surface border border-theme rounded-2xl space-y-2 hover:border-theme-accent transition-colors"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex items-center gap-2">
                           <span className="text-xl">{voc.emoji}</span>
                           <div>
                             <div className="flex items-center gap-2">
-                              <span className="text-sm font-black text-slate-100">{voc.termEn}</span>
+                              <span className="text-sm font-black text-theme-primary">{voc.termEn}</span>
                               <button
                                 onClick={() => handleSpeak(voc.termEn)}
-                                className="p-1 rounded-md bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 cursor-pointer"
+                                className="p-1 rounded-md bg-theme-accent/20 text-theme-accent hover:bg-theme-accent/30 cursor-pointer"
                                 title="Pronounce"
                               >
                                 <Volume2 className="w-3.5 h-3.5" />
                               </button>
                             </div>
-                            <span className="text-[10px] text-cyan-400 font-mono">{voc.phonetic}</span>
+                            <span className="text-[10px] text-theme-accent font-mono">{voc.phonetic}</span>
                           </div>
                         </div>
 
-                        <span className="text-[11px] font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                        <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded-full border border-emerald-500/30">
                           {voc.termEs}
                         </span>
                       </div>
 
-                      <p className="text-xs text-slate-300">
+                      <p className="text-xs text-theme-secondary">
                         {isSpanish ? voc.definitionEs : voc.definitionEn}
                       </p>
 
-                      <div className="bg-slate-900/90 rounded-xl p-2 text-[11px] text-slate-400 flex items-center justify-between border border-slate-800">
+                      <div className="bg-theme-surface-hover rounded-xl p-2 text-[11px] text-theme-muted flex items-center justify-between border border-theme">
                         <span className="italic">"{voc.exampleEn}"</span>
                         <button
                           onClick={() => handleSpeak(voc.exampleEn)}
-                          className="text-cyan-400 hover:text-cyan-300 p-0.5 cursor-pointer ml-2 shrink-0"
+                          className="text-theme-accent hover:opacity-80 p-0.5 cursor-pointer ml-2 shrink-0"
                           title="Play example"
                         >
                           <Volume2 className="w-3 h-3" />

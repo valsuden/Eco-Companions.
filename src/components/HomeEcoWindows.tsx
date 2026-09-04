@@ -229,11 +229,7 @@ export const HomeEcoWindows: React.FC<HomeEcoWindowsProps> = ({
             sound.playClick();
             onOpenPanoramicWindow();
           }}
-          className="p-3 rounded-2xl border text-left shadow-sm transition-all cursor-pointer group flex flex-col justify-between min-h-[80px] min-w-[150px] sm:min-w-0 shrink-0 sm:shrink backdrop-blur-md relative overflow-hidden"
-          style={{
-            backgroundColor: 'var(--surface)',
-            borderColor: 'var(--border)',
-          }}
+          className="glass-panel p-3 rounded-2xl text-left transition-all cursor-pointer group flex flex-col justify-between min-h-[80px] min-w-[150px] sm:min-w-0 shrink-0 sm:shrink relative overflow-hidden"
         >
           {/* Subtle background image overlay */}
           <div className="absolute right-0 top-0 bottom-0 w-24 opacity-25 group-hover:opacity-40 transition-opacity pointer-events-none overflow-hidden">
@@ -276,11 +272,9 @@ export const HomeEcoWindows: React.FC<HomeEcoWindowsProps> = ({
             sound.playClick();
             setActiveWindow(activeWindow === 'tips' ? null : 'tips');
           }}
-          className="p-3 rounded-2xl text-left shadow-sm transition-all cursor-pointer group flex flex-col justify-between min-h-[80px] min-w-[150px] sm:min-w-0 shrink-0 sm:shrink border backdrop-blur-md"
-          style={{
-            backgroundColor: activeWindow === 'tips' ? 'var(--surface-hover)' : 'var(--surface)',
-            borderColor: activeWindow === 'tips' ? 'var(--accent)' : 'var(--border)',
-          }}
+          className={`glass-panel p-3 rounded-2xl text-left transition-all cursor-pointer group flex flex-col justify-between min-h-[80px] min-w-[150px] sm:min-w-0 shrink-0 sm:shrink ${
+            activeWindow === 'tips' ? 'bg-theme-surface-hover border-theme-accent' : ''
+          }`}
         >
           <div className="flex items-center justify-between w-full mb-1">
             <span className="text-[8px] font-extrabold uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--accent)' }}>
@@ -308,11 +302,7 @@ export const HomeEcoWindows: React.FC<HomeEcoWindowsProps> = ({
             sound.playClick();
             onOpenRenameModal();
           }}
-          className="p-3 rounded-2xl border text-left shadow-sm transition-all cursor-pointer group flex flex-col justify-between min-h-[80px] min-w-[150px] sm:min-w-0 shrink-0 sm:shrink backdrop-blur-md"
-          style={{
-            backgroundColor: 'var(--surface)',
-            borderColor: 'var(--border)',
-          }}
+          className="glass-panel p-3 rounded-2xl text-left transition-all cursor-pointer group flex flex-col justify-between min-h-[80px] min-w-[150px] sm:min-w-0 shrink-0 sm:shrink"
         >
           <div className="flex items-center justify-between w-full mb-1">
             <span className="text-[8px] font-extrabold uppercase tracking-wider flex items-center gap-1.5" style={{ color: 'var(--accent)' }}>
@@ -342,14 +332,9 @@ export const HomeEcoWindows: React.FC<HomeEcoWindowsProps> = ({
             className="overflow-hidden"
           >
             <div 
-              className="border rounded-2xl p-3.5 shadow-sm space-y-2.5"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'var(--border)',
-                color: 'var(--text-primary)',
-              }}
+              className="glass-panel rounded-2xl p-3.5 space-y-2.5 text-theme-primary"
             >
-              <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: 'var(--border)' }}>
+              <div className="flex items-center justify-between border-b border-theme pb-2">
                 <div className="flex items-center gap-2">
                   <Leaf className="w-3.5 h-3.5" style={{ color: 'var(--accent)' }} />
                   <span className="text-[9px] font-extrabold uppercase tracking-wider" style={{ color: 'var(--accent)' }}>
@@ -359,35 +344,21 @@ export const HomeEcoWindows: React.FC<HomeEcoWindowsProps> = ({
                 <div className="flex items-center gap-1">
                   <button
                     onClick={handleNextTip}
-                    className="px-2 py-1 rounded-lg border text-[8px] font-bold flex items-center gap-1 cursor-pointer transition-colors"
-                    style={{
-                      backgroundColor: 'var(--bg-primary)',
-                      borderColor: 'var(--border)',
-                      color: 'var(--text-primary)',
-                    }}
+                    className="px-2 py-1 rounded-lg border border-theme bg-theme-primary text-[8px] font-bold flex items-center gap-1 cursor-pointer transition-colors text-theme-primary"
                   >
                     <RefreshCw className="w-2.5 h-2.5 animate-spin" style={{ animationDuration: '3s' }} />
                     <span>{isSpanish ? 'Siguiente' : 'Next'}</span>
                   </button>
                   <button
                     onClick={() => setActiveWindow(null)}
-                    className="p-1 rounded-lg border cursor-pointer"
-                    style={{
-                      backgroundColor: 'var(--bg-primary)',
-                      borderColor: 'var(--border)',
-                      color: 'var(--text-muted)',
-                    }}
+                    className="p-1 rounded-lg border border-theme bg-theme-primary text-theme-muted cursor-pointer hover:bg-theme-surface-hover"
                   >
                     <X className="w-3 h-3" />
                   </button>
                 </div>
               </div>
               <div 
-                className="flex items-start gap-2.5 p-2.5 rounded-xl border"
-                style={{
-                  backgroundColor: 'var(--bg-primary)',
-                  borderColor: 'var(--border)',
-                }}
+                className="flex items-start gap-2.5 p-2.5 rounded-xl border border-theme bg-theme-primary"
               >
                 <span className="shrink-0 mt-0.5" style={{ color: 'var(--accent)' }}>{ECO_TIPS[tipIndex].icon}</span>
                 <div>

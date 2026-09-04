@@ -11,7 +11,8 @@ import {
   CosmeticSlot,
   PetColorScheme,
   ViewType, 
-  ToastItem 
+  ToastItem,
+  AppNotification
 } from './types';
 import { 
   INITIAL_USER, 
@@ -27,6 +28,7 @@ import { DailyRewardModal } from './components/DailyRewardModal';
 import { LevelUpModal } from './components/LevelUpModal';
 import { ToastContainer } from './components/ToastContainer';
 import { LearnEnglishModal } from './components/LearnEnglishModal';
+import { NotificationCenter } from './components/NotificationCenter';
 
 import { SplashView } from './views/SplashView';
 import { OnboardingView } from './views/OnboardingView';
@@ -36,6 +38,10 @@ import { GamesView } from './views/GamesView';
 import { StoreView } from './views/StoreView';
 import { ProfileView } from './views/ProfileView';
 import { SettingsView } from './views/SettingsView';
+import { EcoPassView } from './views/EcoPassView';
+import { QuestsView } from './views/QuestsView';
+import { CollectionView } from './views/CollectionView';
+import { PetDiaryView } from './views/PetDiaryView';
 
 const STORAGE_KEY = 'aeris_eco_liceista_v1';
 
@@ -81,6 +87,29 @@ export default function App() {
   const [currentView, setCurrentView] = useState<ViewType>(() => {
     return user.name ? 'home' : 'splash';
   });
+
+  // Notifications state
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState<AppNotification[]>([
+    {
+      id: 'notif_welcome',
+      title: '¡Bienvenido a Aeris 2.0!',
+      message: 'Explora la nueva interfaz renovada con metas, colección, racha activa y diario de mascotas.',
+      timestamp: 'Ahora',
+      read: false,
+      type: 'system',
+    },
+    {
+      id: 'notif_daily_streak',
+      title: 'Racha Activa Lista',
+      message: 'Reclama tu bonificación diaria para mantener tu multiplicador de racha encendido.',
+      timestamp: 'Hoy',
+      read: false,
+      type: 'quest',
+      rewardCoins: 50,
+      rewardXp: 30,
+    },
+  ]);
 
   // Modal and action states
   const [isDailyRewardOpen, setIsDailyRewardOpen] = useState(false);
@@ -512,6 +541,74 @@ export default function App() {
     setIsDailyRewardOpen(false);
   };
 
+  // Eco Pass Handler
+  const handleClaimPassReward = (tier: number, rewardType: 'coins' | 'cosmetic', amount: number, cosmeticId?: string) => {
+    setUser((prev) => {
+      const claimedTiers = prev.claimedPassTiers || [];
+      if (claimedTiers.includes(tier)) return prev;
+
+      let newCoins = prev.coins;
+      let newOwnedCosmetics = prev.ownedCosmetics || [];
+
+      if (rewardType === 'coins') {
+        newCoins += amount;
+        addToast(user.language === 'es' ? `¡Reclamaste ${amount} Monedas del Pase!` : `Claimed ${amount} Pass Coins!`, 'success');
+      } else if (rewardType === 'cosmetic' && cosmeticId) {
+        newOwnedCosmetics = Array.from(new Set([...newOwnedCosmetics, cosmeticId]));
+        addToast(user.language === 'es' ? '¡Cosmético Premium Reclamado!' : 'Premium Cosmetic Claimed!', 'success');
+      }
+
+      return {
+        ...prev,
+        coins: newCoins,
+        ownedCosmetics: newOwnedCosmetics,
+        claimedPassTiers: [...claimedTiers, tier]
+      };
+    });
+  };
+
+  // Quests & Achievement Reward Claims
+  const handleClaimQuestReward = (questId: string, coins: number, xp: number) => {
+    addCoins(coins);
+    addXP(xp);
+    addToast(user.language === 'es' ? `¡Meta completada! +${coins} 🪙 y +${xp} XP` : `Quest complete! +${coins} 🪙 and +${xp} XP`, 'success');
+  };
+
+  const handleClaimAchievementReward = (achievementId: string, coins: number, xp: number) => {
+    addCoins(coins);
+    addXP(xp);
+    addToast(user.language === 'es' ? `¡Insignia desbloqueada! +${coins} 🪙 y +${xp} XP` : `Badge unlocked! +${coins} 🪙 and +${xp} XP`, 'success');
+  };
+
+  // Switch Pet Species Handler
+  const handleSwitchPetSpecies = (species: PetSpecies) => {
+    setPetInfo((prev) => ({
+      ...prev,
+      species,
+      name: prev.name || (species === 'dog' ? 'Rocco' : species === 'rabbit' ? 'Copito' : 'Aeris'),
+    }));
+    addToast(user.language === 'es' ? `Mascota activa cambiada a ${species}` : `Active pet changed to ${species}`, 'info');
+  };
+
+  // Notification Handlers
+  const handleMarkNotificationAsRead = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
+  };
+
+  const handleClearAllNotifications = () => {
+    setNotifications([]);
+    addToast(user.language === 'es' ? 'Notificaciones limpiadas' : 'Notifications cleared', 'info');
+  };
+
+  const handleClaimNotificationReward = (notif: AppNotification) => {
+    if (notif.rewardCoins) addCoins(notif.rewardCoins);
+    if (notif.rewardXp) addXP(notif.rewardXp);
+    setNotifications((prev) => prev.filter((n) => n.id !== notif.id));
+    addToast(user.language === 'es' ? '¡Recompensa de notificación reclamada!' : 'Notification reward claimed!', 'success');
+  };
+
   // Reset Progress Handler
   const handleResetProgress = () => {
     sound.playWrong();
@@ -643,6 +740,8 @@ export default function App() {
                 onSleepPet={handleSleepPet}
                 onPetClick={handlePetClick}
                 onOpenDailyReward={() => setIsDailyRewardOpen(true)}
+                onOpenNotifications={() => setIsNotificationsOpen(true)}
+                unreadNotificationsCount={notifications.filter((n) => !n.read).length}
                 onRewardXpAndCoins={(xp, coins) => {
                   addXP(xp);
                   if (coins > 0) addCoins(coins);
@@ -723,7 +822,23 @@ export default function App() {
             </motion.div>
           )}
 
-          {/* 8. SETTINGS */}
+          {/* 8. ECO PASS */}
+          {currentView === 'ecopass' && (
+            <motion.div
+              key="ecopass"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="w-full h-full"
+            >
+              <EcoPassView
+                user={user}
+                onClaimReward={handleClaimPassReward}
+              />
+            </motion.div>
+          )}
+
+          {/* 9. SETTINGS */}
           {currentView === 'settings' && (
             <motion.div
               key="settings"
@@ -742,8 +857,70 @@ export default function App() {
               />
             </motion.div>
           )}
+
+          {/* 10. QUESTS & LOGROS */}
+          {currentView === 'quests' && (
+            <motion.div
+              key="quests"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="w-full h-full"
+            >
+              <QuestsView
+                user={user}
+                onClaimQuestReward={handleClaimQuestReward}
+                onClaimAchievementReward={handleClaimAchievementReward}
+              />
+            </motion.div>
+          )}
+
+          {/* 11. COLLECTION ALBUM */}
+          {currentView === 'collection' && (
+            <motion.div
+              key="collection"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="w-full h-full"
+            >
+              <CollectionView
+                user={user}
+                petInfo={petInfo}
+              />
+            </motion.div>
+          )}
+
+          {/* 12. PET DIARY */}
+          {currentView === 'pet-diary' && (
+            <motion.div
+              key="pet-diary"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="w-full h-full"
+            >
+              <PetDiaryView
+                user={user}
+                petInfo={petInfo}
+                onSwitchPetSpecies={handleSwitchPetSpecies}
+                onUpdatePetName={handleUpdatePetName}
+              />
+            </motion.div>
+          )}
         </AnimatePresence>
       </main>
+
+      {/* Notification Center Drawer */}
+      <NotificationCenter
+        isOpen={isNotificationsOpen}
+        onClose={() => setIsNotificationsOpen(false)}
+        notifications={notifications}
+        onMarkAsRead={handleMarkNotificationAsRead}
+        onClearAll={handleClearAllNotifications}
+        onClaimReward={handleClaimNotificationReward}
+        language={user.language || 'en'}
+      />
 
       {/* Daily Reward Modal */}
       <DailyRewardModal

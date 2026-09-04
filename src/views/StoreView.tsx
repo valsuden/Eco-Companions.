@@ -65,26 +65,21 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
 
   return (
     <div 
-      className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none "
-      style={{
-        backgroundColor: 'var(--bg-primary)',
-        color: 'var(--text-primary)',
-      }}
+      className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary"
     >
       <div className="max-w-4xl mx-auto space-y-6 pb-20 md:pb-6">
         {/* Header */}
         <div 
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4"
-          style={{ borderColor: 'var(--border)' }}
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-theme pb-4"
         >
           <div>
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-6 h-6" style={{ color: 'var(--accent)' }} />
-              <h1 className="text-xl sm:text-2xl font-black" style={{ color: 'var(--text-primary)' }}>
+              <ShoppingBag className="w-6 h-6 text-theme-accent" />
+              <h1 className="text-xl sm:text-2xl font-black text-theme-primary">
                 {t.storeTitle}
               </h1>
             </div>
-            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-xs mt-1 text-theme-muted">
               {t.storeSubtitle}
             </p>
           </div>
@@ -97,12 +92,7 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
                 sound.playClick();
                 setShowTour(true);
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer hover:opacity-85"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'var(--border-accent)',
-                color: 'var(--accent)',
-              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-theme-accent text-xs font-bold transition-all cursor-pointer hover:opacity-85 glass-panel bg-theme-surface text-theme-accent"
               title={t.tourHelpBtnStore}
             >
               <HelpCircle className="w-4 h-4" />
@@ -112,11 +102,7 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
             {/* User Coins Counter */}
             <div 
               id="store-tour-coins"
-              className="flex items-center gap-2 px-4 py-2 rounded-2xl border text-amber-300 font-extrabold text-xs sm:text-sm shadow-inner backdrop-blur-md"
-              style={{
-                backgroundColor: 'var(--surface)',
-                borderColor: 'rgba(245, 158, 11, 0.4)',
-              }}
+              className="flex items-center gap-2 px-4 py-2 rounded-2xl border text-amber-300 font-extrabold text-xs sm:text-sm shadow-inner glass-panel bg-amber-500/10 border-amber-500/30"
             >
               <Coins className="w-4 h-4 text-amber-400" />
               <span>{user.coins} {t.coins}</span>
@@ -136,15 +122,11 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
                   sound.playClick();
                   setSelectedCategory(cat.id);
                 }}
-                className="px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap flex items-center gap-2 transition-all cursor-pointer border"
-                style={{
-                  backgroundColor: isActive ? 'var(--accent)' : 'var(--surface)',
-                  color: isActive ? '#0f172a' : 'var(--text-secondary)',
-                  borderColor: isActive ? 'var(--border-accent)' : 'var(--border)',
-                  fontWeight: isActive ? 900 : 600,
-                }}
+                className={`px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap flex items-center gap-2 transition-all cursor-pointer border glass-panel ${
+                  isActive ? 'bg-theme-accent border-theme-accent text-white' : 'bg-theme-surface border-theme text-theme-secondary hover:text-theme-primary'
+                }`}
               >
-                <Icon className="w-3.5 h-3.5" style={{ color: isActive ? '#0f172a' : 'var(--accent)' }} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-theme-accent'}`} />
                 <span>{cat.label}</span>
               </button>
             );
@@ -175,11 +157,10 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
               <motion.div
                 key={item.id}
                 whileHover={isUnlockedLevel ? { y: -3 } : undefined}
-                className="border rounded-3xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden transition-all backdrop-blur-md"
+                className={`glass-card border rounded-3xl p-5 flex flex-col justify-between shadow-xl relative overflow-hidden transition-all ${
+                  isEquipped ? 'border-theme-accent shadow-theme-glow' : 'border-theme-accent/30'
+                }`}
                 style={{
-                  backgroundColor: 'var(--surface)',
-                  borderColor: isEquipped ? 'var(--border-accent)' : 'var(--border)',
-                  boxShadow: isEquipped ? '0 0 15px var(--glow)' : 'var(--card-shadow)',
                   opacity: isUnlockedLevel ? 1 : 0.65,
                 }}
               >
@@ -187,23 +168,14 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
                   {/* Top Item Card */}
                   <div className="flex items-start justify-between">
                     <div 
-                      className="w-14 h-14 rounded-2xl border flex items-center justify-center shadow-inner"
-                      style={{
-                        backgroundColor: 'var(--bg-primary)',
-                        borderColor: 'var(--border)',
-                      }}
+                      className="w-14 h-14 rounded-2xl border border-theme flex items-center justify-center shadow-inner glass-panel bg-theme-primary"
                     >
                       <EcoIcon name={item.icon} className="w-7 h-7" />
                     </div>
 
                     <div className="flex flex-col items-end">
                       <span 
-                        className="text-[10px] uppercase font-black px-2 py-0.5 rounded-full border"
-                        style={{
-                          backgroundColor: 'var(--bg-primary)',
-                          borderColor: 'var(--border)',
-                          color: 'var(--text-muted)',
-                        }}
+                        className="text-[10px] uppercase font-black px-2 py-0.5 rounded-full border border-theme glass-panel bg-theme-primary text-theme-muted"
                       >
                         {item.category}
                       </span>
@@ -216,21 +188,16 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-black" style={{ color: 'var(--text-primary)' }}>
+                    <h3 className="text-sm font-black text-theme-primary">
                       {getLocalizedStoreItem(item, currentLang).name}
                     </h3>
-                    <p className="text-xs mt-0.5 line-clamp-2" style={{ color: 'var(--text-muted)' }}>
+                    <p className="text-xs mt-0.5 line-clamp-2 text-theme-muted">
                       {getLocalizedStoreItem(item, currentLang).description}
                     </p>
                   </div>
 
                   <div 
-                    className="text-[11px] font-bold px-2.5 py-1 rounded-xl border"
-                    style={{
-                      backgroundColor: 'rgba(6, 182, 212, 0.12)',
-                      borderColor: 'var(--border-accent)',
-                      color: 'var(--accent)',
-                    }}
+                    className="text-[11px] font-bold px-2.5 py-1 rounded-xl border glass-panel bg-theme-accent/10 border-theme-accent text-theme-accent"
                   >
                     {getLocalizedStoreItem(item, currentLang).effectText}
                   </div>
@@ -238,8 +205,7 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
 
                 {/* Buy / Equip Button */}
                 <div 
-                  className="mt-4 pt-3 border-t"
-                  style={{ borderColor: 'var(--border)' }}
+                  className="mt-4 pt-3 border-t border-theme"
                 >
                   {isPurchased ? (
                     <button
@@ -247,13 +213,9 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
                         sound.playClick();
                         onEquipItem(item);
                       }}
-                      className="w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer border"
-                      style={{
-                        backgroundColor: isEquipped ? 'var(--accent)' : 'var(--bg-primary)',
-                        color: isEquipped ? '#0f172a' : 'var(--text-primary)',
-                        borderColor: isEquipped ? 'var(--border-accent)' : 'var(--border)',
-                        fontWeight: isEquipped ? 900 : 700,
-                      }}
+                      className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer border glass-panel ${
+                        isEquipped ? 'bg-theme-accent text-white border-theme-accent' : 'bg-theme-primary text-theme-primary border-theme hover:bg-theme-surface-hover'
+                      }`}
                     >
                       {isEquipped ? (
                         <>
@@ -273,21 +235,11 @@ export function StoreView({ user, onBuyItem, onEquipItem }: StoreViewProps) {
                           onBuyItem(item);
                         }
                       }}
-                      className="w-full py-2.5 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-md border"
-                      style={{
-                        backgroundColor: !isUnlockedLevel
-                          ? 'var(--surface)'
-                          : canAfford
-                          ? 'var(--accent)'
-                          : 'var(--surface)',
-                        color: !isUnlockedLevel
-                          ? 'var(--text-muted)'
-                          : canAfford
-                          ? '#0f172a'
-                          : 'var(--text-secondary)',
-                        borderColor: 'var(--border)',
-                        cursor: !isUnlockedLevel || !canAfford ? 'not-allowed' : 'pointer',
-                      }}
+                      className={`w-full py-2.5 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 transition-all shadow-md border glass-panel ${
+                        !isUnlockedLevel ? 'bg-theme-surface border-theme text-theme-muted cursor-not-allowed'
+                        : canAfford ? 'bg-theme-accent text-white border-theme-accent cursor-pointer hover:opacity-90'
+                        : 'bg-theme-surface border-theme text-theme-secondary cursor-not-allowed'
+                      }`}
                     >
                       {!isUnlockedLevel ? (
                         <div className="flex items-center gap-1">

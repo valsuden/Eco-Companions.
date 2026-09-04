@@ -332,6 +332,66 @@ class SoundManager {
     }
   }
 
+  public playPetSound(species: 'cat' | 'dog' | 'rabbit' = 'cat') {
+    if (!this.enabled) return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      if (species === 'dog') {
+        // Dog bark / happy yip
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(280, now);
+        osc.frequency.exponentialRampToValueAtTime(420, now + 0.08);
+        osc.frequency.exponentialRampToValueAtTime(220, now + 0.18);
+
+        gain.gain.setValueAtTime(0.2 * this.volume, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.2);
+      } else if (species === 'rabbit') {
+        // Rabbit squeak / chirp
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(1200, now + 0.06);
+        osc.frequency.exponentialRampToValueAtTime(950, now + 0.12);
+
+        gain.gain.setValueAtTime(0.14 * this.volume, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.14);
+      } else {
+        // Cat meow / purr
+        this.playCatPurr();
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  public playQuestComplete() {
+    this.playLevelUp();
+  }
+
+  public playAchievementUnlock() {
+    this.playSparkle();
+  }
+
+  public playStreakMaintain() {
+    this.playCoin();
+  }
+
   public playPurr() {
     this.playCatPurr();
   }

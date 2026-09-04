@@ -54,30 +54,30 @@ export const DailyRewardModal: React.FC<DailyRewardModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
         <div className="absolute inset-0" onClick={onClose} />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-md bg-white rounded-3xl p-6 sm:p-7 shadow-2xl z-10 border border-stone-200 text-center text-stone-900"
+          className="relative w-full max-w-md glass-card rounded-3xl p-6 sm:p-7 shadow-2xl z-10 border border-theme text-center text-theme-primary"
         >
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-400 hover:text-stone-700 flex items-center justify-center transition-colors cursor-pointer"
+            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-theme-surface hover:bg-theme-surface-hover text-theme-secondary flex items-center justify-center transition-colors cursor-pointer border border-theme"
           >
             <X className="w-4 h-4" />
           </button>
 
           {/* Icon Header */}
-          <div className="w-18 h-18 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 mx-auto -mt-12 mb-4 flex items-center justify-center text-white shadow-xl shadow-amber-500/10 border-2 border-white">
+          <div className="w-18 h-18 rounded-2xl bg-amber-500 mx-auto -mt-12 mb-4 flex items-center justify-center text-white shadow-lg border-2 border-amber-400">
             <Gift className="w-9 h-9" />
           </div>
 
-          <h2 className="text-xl font-black text-stone-800">{t.dailyReward}</h2>
-          <p className="text-xs text-stone-500 mt-1 mb-6 font-medium">
+          <h2 className="text-xl font-black text-theme-primary">{t.dailyReward}</h2>
+          <p className="text-xs text-theme-muted mt-1 mb-6 font-medium">
             {language === 'es' 
               ? '¡Ingresa a diario para mantener tu racha y ganar recompensas de la división AERIS!'
               : 'Log in daily to maintain your streak and earn rewards for the AERIS division!'}
@@ -94,11 +94,11 @@ export const DailyRewardModal: React.FC<DailyRewardModalProps> = ({
                   key={item.day}
                   className={`rounded-2xl p-2.5 flex flex-col items-center justify-center transition-all ${
                     item.isSpecial 
-                      ? 'col-span-2 bg-gradient-to-br from-amber-50 to-amber-100/40 border border-amber-200' 
-                      : 'bg-stone-50 border border-stone-200/80'
-                  } ${isToday ? 'ring-2 ring-cyan-500 ring-offset-2 ring-offset-white scale-105 bg-white shadow-sm' : ''}`}
+                      ? 'col-span-2 bg-amber-500/10 border border-amber-500/30' 
+                      : 'bg-theme-surface border border-theme'
+                  } ${isToday ? 'ring-2 ring-theme-accent ring-offset-2 ring-offset-bg-primary scale-105 shadow-theme-glow' : ''}`}
                 >
-                  <span className={`text-[10px] font-black uppercase ${isToday ? 'text-cyan-600 font-black' : 'text-stone-400'}`}>
+                  <span className={`text-[10px] uppercase font-black ${isToday ? 'text-theme-accent' : 'text-theme-muted'}`}>
                     {t.day} {item.day}
                   </span>
 
@@ -108,19 +108,19 @@ export const DailyRewardModal: React.FC<DailyRewardModalProps> = ({
                     ) : item.isSpecial ? (
                       <div className="flex items-center gap-1">
                         <Crown className="w-5 h-5 text-amber-500" />
-                        <Sparkles className="w-4 h-4 text-cyan-500" />
+                        <Sparkles className="w-4 h-4 text-theme-accent" />
                       </div>
                     ) : (
-                      <Gift className="w-5 h-5 text-stone-400" />
+                      <Gift className="w-5 h-5 text-theme-secondary" />
                     )}
                   </div>
 
-                  <div className={`text-[11px] font-bold flex items-center gap-1 ${isToday ? 'text-amber-600 font-extrabold' : 'text-stone-600'}`}>
-                    <Coins className="w-3 h-3 text-amber-500" />
+                  <div className={`text-[11px] font-bold flex items-center gap-1 ${isToday ? 'text-amber-400 font-extrabold' : 'text-theme-secondary'}`}>
+                    <Coins className="w-3 h-3 text-amber-400" />
                     <span>{item.reward}</span>
                   </div>
                   {item.specialText && (
-                    <span className="text-[8px] font-bold text-amber-600 uppercase mt-0.5 tracking-tight">
+                    <span className="text-[8px] font-bold text-amber-400 uppercase mt-0.5 tracking-tight">
                       {item.specialText}
                     </span>
                   )}
@@ -133,10 +133,10 @@ export const DailyRewardModal: React.FC<DailyRewardModalProps> = ({
           <button
             onClick={handleClaim}
             disabled={dailyRewardClaimed}
-            className={`w-full py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
+            className={`w-full py-3 rounded-2xl font-black text-xs uppercase tracking-wider transition-all cursor-pointer border ${
               dailyRewardClaimed
-                ? 'bg-stone-100 text-stone-400 border border-stone-200 cursor-not-allowed shadow-none'
-                : 'bg-gradient-to-r from-cyan-600 to-teal-500 hover:from-cyan-500 hover:to-teal-400 text-white shadow-md active:scale-95'
+                ? 'bg-theme-surface text-theme-muted border-theme cursor-not-allowed shadow-none'
+                : 'bg-theme-accent text-white border-theme-accent shadow-md active:scale-95 hover:opacity-90'
             }`}
           >
             {dailyRewardClaimed ? t.claimed : t.claimReward}

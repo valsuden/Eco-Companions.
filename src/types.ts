@@ -28,8 +28,12 @@ export type ViewType =
   | 'store' 
   | 'inventory'
   | 'profile' 
+  | 'ecopass'
   | 'settings'
-  | 'learn-english';
+  | 'learn-english'
+  | 'quests'
+  | 'collection'
+  | 'pet-diary';
 
 export type WasteCategory = 'organic' | 'recyclable' | 'non_usable';
 
@@ -136,6 +140,7 @@ export interface User {
   equippedHabitat?: string;
   ownedCosmetics?: string[];
   inventory?: InventoryItem[];
+  claimedPassTiers?: number[];
   petAffectionEnergy?: number;
   lastPetTimestamp?: number;
   theme?: ThemeId;
@@ -184,4 +189,49 @@ export interface EducationalAchievement {
   maxProgress: number;
   rewardCoins: number;
   rewardXp: number;
+}
+
+export interface AppNotification {
+  id: string;
+  title: string;
+  message: string;
+  timestamp: string;
+  read: boolean;
+  type: 'quest' | 'achievement' | 'level' | 'pet' | 'store' | 'system';
+  rewardCoins?: number;
+  rewardXp?: number;
+}
+
+export type QuestCategory = 'daily' | 'weekly' | 'special' | 'pet' | 'minigame';
+
+export interface QuestItem {
+  id: string;
+  titleEs: string;
+  titleEn: string;
+  descEs: string;
+  descEn: string;
+  category: QuestCategory;
+  progress: number;
+  maxProgress: number;
+  rewardCoins: number;
+  rewardXp: number;
+  completed: boolean;
+  claimed: boolean;
+  icon: string;
+}
+
+export type CollectionCategory = 'pets' | 'accessories' | 'badges' | 'special' | 'memories';
+
+export interface CollectionItem {
+  id: string;
+  nameEs: string;
+  nameEn: string;
+  descEs: string;
+  descEn: string;
+  category: CollectionCategory;
+  icon: string;
+  rarity: ItemRarity;
+  unlocked: boolean;
+  unlockConditionEs: string;
+  unlockConditionEn: string;
 }
