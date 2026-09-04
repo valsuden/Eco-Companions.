@@ -143,7 +143,6 @@ export const EcoIcon: React.FC<EcoIconProps> = ({ name, className = 'w-6 h-6', s
     case 'food_dog_carrot_sticks':
       return <Carrot {...iconProps} className={`${className} text-orange-500`} />;
     case 'food_dog_banana_bites':
-    case '🍌':
       return <Sparkles {...iconProps} className={`${className} text-amber-300`} />;
 
     // Foods - Rabbit
