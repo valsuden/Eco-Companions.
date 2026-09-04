@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { User, QuestItem, QuestCategory, EducationalAchievement } from '../types';
 import { sound } from '../utils/sound';
 import { useI18n } from '../utils/i18n';
+import { GuidedTour, TourStep } from '../components/GuidedTour';
 import { 
   CheckCircle2, 
   Flame, 
@@ -15,7 +16,8 @@ import {
   Gamepad2, 
   Heart, 
   Award,
-  Gift
+  Gift,
+  Info
 } from 'lucide-react';
 import { EcoIcon } from '../components/EcoIcon';
 import { INITIAL_ACHIEVEMENTS, getLocalizedAchievement } from '../data/ecoData';
@@ -144,6 +146,26 @@ export const QuestsView: React.FC<QuestsViewProps> = ({
     return { ...ach, progress, unlocked };
   });
 
+  const [showTour, setShowTour] = useState(() => {
+    try {
+      return localStorage.getItem('caucasia_eco_tour_quests_tour') !== 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const tourSteps: TourStep[] = [
+    {
+      id: 'step_quests_list',
+      targetId: 'quests-tour-list',
+      title: currentLang === 'es' ? 'Metas y Logros' : 'Quests & Achievements',
+      description: currentLang === 'es' 
+        ? 'Completa estas misiones para ganar XP y subir de nivel a tu mascota.' 
+        : 'Complete these quests to earn XP and level up your pet.',
+      icon: <Target className="w-5 h-5 text-emerald-400" />
+    }
+  ];
+
   const handleClaimQuest = (quest: QuestItem) => {
     if (!quest.completed || quest.claimed) return;
     sound.playQuestComplete();
@@ -154,7 +176,7 @@ export const QuestsView: React.FC<QuestsViewProps> = ({
   };
 
   return (
-    <div className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary">
+    <div className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary relative">
       <div className="max-w-4xl mx-auto space-y-6 pb-24 md:pb-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-theme pb-4">
@@ -174,20 +196,34 @@ export const QuestsView: React.FC<QuestsViewProps> = ({
             </p>
           </div>
 
-          {/* Active Streak Badge */}
-          <div className="flex items-center gap-2.5 px-4 py-2 rounded-2xl border border-rose-500/30 bg-rose-500/10 text-rose-400 font-extrabold text-xs shadow-md self-start sm:self-auto">
-            <Flame className="w-5 h-5 fill-rose-500 animate-pulse" />
-            <div>
-              <span className="block text-[10px] uppercase text-rose-300 font-black">
-                {currentLang === 'es' ? 'Racha Activa' : 'Active Streak'}
-              </span>
-              <span className="text-sm">{user.streak} {currentLang === 'es' ? 'Días Seguidos' : 'Days Streak'}</span>
+          <div className="flex items-center gap-3">
+            {/* Active Streak Badge */}
+            <div className="flex items-center gap-2.5 px-4 py-2 rounded-2xl border border-rose-500/30 bg-rose-500/10 text-rose-400 font-extrabold text-xs shadow-md self-start sm:self-auto">
+              <Flame className="w-5 h-5 fill-rose-500 animate-pulse" />
+              <div>
+                <span className="block text-[10px] uppercase text-rose-300 font-black">
+                  {currentLang === 'es' ? 'Racha Activa' : 'Active Streak'}
+                </span>
+                <span className="text-sm">{user.streak} {currentLang === 'es' ? 'Días Seguidos' : 'Days Streak'}</span>
+              </div>
             </div>
+
+            {/* Help Button */}
+            <button
+              onClick={() => {
+                sound.playClick();
+                setShowTour(true);
+              }}
+              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-theme-accent text-xs font-bold transition-all cursor-pointer hover:opacity-85 glass-panel bg-theme-surface text-theme-accent self-start sm:self-auto h-full"
+              title={currentLang === 'es' ? 'Ayuda' : 'Help'}
+            >
+              <Info className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
         {/* Tab Switcher */}
-        <div className="grid grid-cols-2 p-1.5 rounded-2xl glass-panel max-w-md mx-auto">
+        <div id="quests-tour-list" className="grid grid-cols-2 p-1.5 rounded-2xl glass-panel max-w-md mx-auto">
           <button
             onClick={() => {
               sound.playClick();
@@ -414,6 +450,16 @@ export const QuestsView: React.FC<QuestsViewProps> = ({
           </div>
         )}
       </div>
+
+      <GuidedTour
+        tourId="quests_tour"
+        isOpen={showTour}
+        onClose={() => setShowTour(false)}
+        steps={tourSteps}
+        badgeText={currentLang === 'es' ? 'Metas' : 'Quests'}
+        finishButtonText={currentLang === 'es' ? '¡Entendido!' : 'Got it!'}
+        language={currentLang as 'es' | 'en'}
+      />
     </div>
   );
 };

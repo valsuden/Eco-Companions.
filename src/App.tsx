@@ -43,6 +43,8 @@ import { QuestsView } from './views/QuestsView';
 import { CollectionView } from './views/CollectionView';
 import { PetDiaryView } from './views/PetDiaryView';
 
+import { GlobalBackground } from './components/GlobalBackground';
+
 const STORAGE_KEY = 'aeris_eco_liceista_v1';
 
 export default function App() {
@@ -618,6 +620,14 @@ export default function App() {
     localStorage.removeItem(`${STORAGE_KEY}_user`);
     localStorage.removeItem(`${STORAGE_KEY}_stats`);
     localStorage.removeItem(`${STORAGE_KEY}_pet`);
+    
+    // Clear all tour flags to restart tutorial
+    for (const key of Object.keys(localStorage)) {
+      if (key.startsWith('caucasia_eco_tour_')) {
+        localStorage.removeItem(key);
+      }
+    }
+    
     setCurrentView('onboarding');
     addToast('Progreso reiniciado correctamente', 'info');
   };
@@ -652,7 +662,8 @@ export default function App() {
   };
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-theme-primary flex flex-col md:flex-row text-theme-primary ">
+    <div className="w-screen h-screen overflow-hidden bg-theme-primary flex flex-col md:flex-row text-theme-primary relative">
+      <GlobalBackground />
       {/* Toast Notifications */}
       <ToastContainer
         toasts={toasts}

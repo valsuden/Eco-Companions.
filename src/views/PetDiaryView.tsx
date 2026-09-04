@@ -5,6 +5,7 @@ import { sound } from '../utils/sound';
 import { useI18n } from '../utils/i18n';
 import { GrowthJournal } from '../components/GrowthJournal';
 import { PetAvatar } from '../components/PetAvatar';
+import { GuidedTour, TourStep } from '../components/GuidedTour';
 import { 
   BookOpen, 
   Heart, 
@@ -82,6 +83,35 @@ export const PetDiaryView: React.FC<PetDiaryViewProps> = ({
 
   const currentProfile = speciesProfiles[selectedSpecies];
 
+  const [showTour, setShowTour] = useState(() => {
+    try {
+      return localStorage.getItem('caucasia_eco_tour_diary_tour') !== 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const tourSteps: TourStep[] = [
+    {
+      id: 'step_diary_species',
+      targetId: 'diary-tour-species',
+      title: currentLang === 'es' ? 'Perfiles de Mascotas' : 'Pet Profiles',
+      description: currentLang === 'es' 
+        ? 'Cambia entre las mascotas que has desbloqueado.' 
+        : 'Switch between the pets you have unlocked.',
+      icon: <Cat className="w-5 h-5 text-amber-400" />
+    },
+    {
+      id: 'step_diary_journal',
+      targetId: 'diary-tour-journal',
+      title: currentLang === 'es' ? 'Diario de Crecimiento' : 'Growth Journal',
+      description: currentLang === 'es' 
+        ? 'Registra tus pensamientos y el progreso de tu guardián.' 
+        : 'Log your thoughts and your guardian\'s progress.',
+      icon: <BookOpen className="w-5 h-5 text-emerald-400" />
+    }
+  ];
+
   const handleSelectSpecies = (species: PetSpecies) => {
     sound.playPetSound(species);
     setSelectedSpecies(species);
@@ -91,7 +121,7 @@ export const PetDiaryView: React.FC<PetDiaryViewProps> = ({
   };
 
   return (
-    <div className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary">
+    <div className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary relative">
       <div className="max-w-4xl mx-auto space-y-6 pb-24 md:pb-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-theme pb-4">
@@ -113,7 +143,7 @@ export const PetDiaryView: React.FC<PetDiaryViewProps> = ({
         </div>
 
         {/* Pet Species Selector Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div id="diary-tour-species" className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {(['cat', 'dog', 'rabbit'] as PetSpecies[]).map((sp) => {
             const prof = speciesProfiles[sp];
             const isSelected = selectedSpecies === sp;
@@ -231,7 +261,7 @@ export const PetDiaryView: React.FC<PetDiaryViewProps> = ({
         </div>
 
         {/* Growth Journal Timeline Component */}
-        <div className="space-y-3">
+        <div id="diary-tour-journal" className="space-y-3">
           <h2 className="text-sm font-black text-theme-primary flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-theme-accent" />
             <span>{currentLang === 'es' ? 'Registro de Hitos y Crecimiento' : 'Growth Journal & History'}</span>
@@ -239,6 +269,16 @@ export const PetDiaryView: React.FC<PetDiaryViewProps> = ({
           <GrowthJournal user={user} petInfo={{ ...petInfo, species: selectedSpecies }} />
         </div>
       </div>
+
+      <GuidedTour
+        tourId="diary_tour"
+        isOpen={showTour}
+        onClose={() => setShowTour(false)}
+        steps={tourSteps}
+        badgeText={currentLang === 'es' ? 'Diario' : 'Diary'}
+        finishButtonText={currentLang === 'es' ? '¡Entendido!' : 'Got it!'}
+        language={currentLang as 'es' | 'en'}
+      />
     </div>
   );
 };

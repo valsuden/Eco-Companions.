@@ -16,11 +16,13 @@ import {
   Sliders,
   User as UserIcon,
   AlertTriangle,
-  Heart
+  Heart,
+  HelpCircle
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 import { useI18n, Language } from '../utils/i18n';
 import { ThemeCustomizer } from '../components/ThemeCustomizer';
+import { GuidedTour, TourStep } from '../components/GuidedTour';
 
 interface SettingsViewProps {
   user: User;
@@ -46,6 +48,35 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   const [activeTab, setActiveTab] = useState<SettingsTab>('system');
   const [playerNameInput, setPlayerNameInput] = useState(user.name);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+
+  const [showTour, setShowTour] = useState(() => {
+    try {
+      return localStorage.getItem('caucasia_eco_tour_settings_tour') !== 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const tourSteps: TourStep[] = [
+    {
+      id: 'step_theme',
+      targetId: 'settings-tabs-container',
+      title: currentLang === 'es' ? 'Configuración' : 'Settings',
+      description: currentLang === 'es' 
+        ? 'Navega por las pestañas para cambiar la apariencia, sonido, idioma o sistema.' 
+        : 'Navigate through the tabs to change appearance, sound, language, or system settings.',
+      icon: <SettingsIcon className="w-5 h-5 text-emerald-400" />
+    },
+    {
+      id: 'step_danger',
+      targetId: 'settings-tour-reset',
+      title: currentLang === 'es' ? 'Precaución' : 'Warning',
+      description: currentLang === 'es' 
+        ? 'Si necesitas reiniciar todo tu progreso y volver a empezar, hazlo desde esta zona.' 
+        : 'If you need to reset all your progress and start over, you can do it from this zone.',
+      icon: <ShieldAlert className="w-5 h-5 text-rose-400" />
+    }
+  ];
 
   const handleSavePlayerName = (e: FormEvent) => {
     e.preventDefault();
@@ -93,8 +124,20 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             </div>
           </div>
 
+          <button
+            onClick={() => {
+              sound.playClick();
+              setShowTour(true);
+            }}
+            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-theme-accent text-xs font-bold transition-all cursor-pointer hover:opacity-85 glass-panel bg-theme-surface text-theme-accent self-start sm:self-auto"
+            title={currentLang === 'es' ? 'Ayuda' : 'Help'}
+          >
+            <Info className="w-4 h-4" />
+          </button>
+
           {/* Quick Sub-Navigation Pills */}
           <div 
+            id="settings-tabs-container"
             className="flex items-center gap-1.5 p-1 rounded-2xl border border-theme overflow-x-auto no-scrollbar glass-panel bg-theme-surface"
           >
             {/* 1. SISTEMA / SYSTEM (FIRST) */}
@@ -402,6 +445,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
             {/* Danger Zone: Reset Progress */}
             <div 
+              id="settings-tour-reset"
               className="border border-rose-500/30 rounded-3xl p-5 space-y-3 glass-panel bg-theme-surface"
             >
               <div className="flex items-center gap-2 text-rose-400">
@@ -527,6 +571,16 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           />
         )}
       </div>
+
+      <GuidedTour
+        tourId="settings_tour"
+        isOpen={showTour}
+        onClose={() => setShowTour(false)}
+        steps={tourSteps}
+        badgeText={currentLang === 'es' ? 'Configuración' : 'Settings'}
+        finishButtonText={currentLang === 'es' ? '¡Entendido!' : 'Got it!'}
+        language={currentLang as 'es' | 'en'}
+      />
 
       {/* CONFIRMATION MODAL */}
       {showResetConfirm && (

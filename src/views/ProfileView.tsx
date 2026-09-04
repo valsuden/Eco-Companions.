@@ -19,12 +19,15 @@ import {
   Trees, 
   Sparkles,
   BookOpen,
-  User as UserIcon
+  User as UserIcon,
+  HelpCircle,
+  Info
 } from 'lucide-react';
 import { AerisLogo } from '../components/AerisLogo';
 import { useI18n, getLocalizedTitleName } from '../utils/i18n';
 import { GrowthJournal } from '../components/GrowthJournal';
 import { sound } from '../utils/sound';
+import { GuidedTour, TourStep } from '../components/GuidedTour';
 
 interface ProfileViewProps {
   user: User;
@@ -36,6 +39,26 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, petInfo }) => {
   const t = useI18n(currentLang);
   const currentTitle = getEnvironmentalTitle(user.level);
   const [activeTab, setActiveTab] = useState<'agent' | 'journal'>('agent');
+
+  const [showTour, setShowTour] = useState(() => {
+    try {
+      return localStorage.getItem('caucasia_eco_tour_profile_tour') !== 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const tourSteps: TourStep[] = [
+    {
+      id: 'step_profile_tabs',
+      targetId: 'profile-nav-tabs',
+      title: currentLang === 'es' ? 'Perfil del Agente' : 'Agent Profile',
+      description: currentLang === 'es' 
+        ? 'Cambia entre tu resumen de estadísticas y tu diario de crecimiento.' 
+        : 'Switch between your stats summary and your growth journal.',
+      icon: <UserIcon className="w-5 h-5 text-sky-400" />
+    }
+  ];
 
   // Calculate achievements progress dynamically
   const achievements = INITIAL_ACHIEVEMENTS.map((ach) => {
@@ -64,26 +87,39 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, petInfo }) => {
     >
       <div className="max-w-4xl mx-auto space-y-6 pb-20 md:pb-6">
         {/* Navigation Tabs (Resumen de Agente vs. Diario de Crecimiento) */}
-        <div 
-          id="profile-nav-tabs"
-          className="flex items-center gap-2 p-1.5 rounded-2xl border border-theme glass-panel"
-        >
-          <button
-            id="tab-agent-summary"
-            onClick={() => { sound.playClick(); setActiveTab('agent'); }}
-            className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer ${activeTab === 'agent' ? 'bg-theme-accent text-white shadow-theme-glow' : 'text-theme-secondary hover:text-theme-primary'}`}
+        <div className="flex items-center gap-2">
+          <div 
+            id="profile-nav-tabs"
+            className="flex-1 flex items-center gap-2 p-1.5 rounded-2xl border border-theme glass-panel"
           >
-            <UserIcon className="w-4 h-4" />
-            <span>{t.agentSummaryTab}</span>
-          </button>
+            <button
+              id="tab-agent-summary"
+              onClick={() => { sound.playClick(); setActiveTab('agent'); }}
+              className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer ${activeTab === 'agent' ? 'bg-theme-accent text-white shadow-theme-glow' : 'text-theme-secondary hover:text-theme-primary'}`}
+            >
+              <UserIcon className="w-4 h-4" />
+              <span>{t.agentSummaryTab}</span>
+            </button>
+
+            <button
+              id="tab-growth-journal"
+              onClick={() => { sound.playClick(); setActiveTab('journal'); }}
+              className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer ${activeTab === 'journal' ? 'bg-theme-accent text-white shadow-theme-glow' : 'text-theme-secondary hover:text-theme-primary'}`}
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>{t.growthJournalTab}</span>
+            </button>
+          </div>
 
           <button
-            id="tab-growth-journal"
-            onClick={() => { sound.playClick(); setActiveTab('journal'); }}
-            className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer ${activeTab === 'journal' ? 'bg-theme-accent text-white shadow-theme-glow' : 'text-theme-secondary hover:text-theme-primary'}`}
+            onClick={() => {
+              sound.playClick();
+              setShowTour(true);
+            }}
+            className="hidden md:flex items-center gap-1.5 px-3 py-3 rounded-xl border border-theme-accent text-xs font-bold transition-all cursor-pointer hover:opacity-85 glass-panel bg-theme-surface text-theme-accent"
+            title={currentLang === 'es' ? 'Ayuda' : 'Help'}
           >
-            <BookOpen className="w-4 h-4" />
-            <span>{t.growthJournalTab}</span>
+            <Info className="w-4 h-4" />
           </button>
         </div>
 
@@ -359,6 +395,16 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, petInfo }) => {
           </>
         )}
       </div>
+
+      <GuidedTour
+        tourId="profile_tour"
+        isOpen={showTour}
+        onClose={() => setShowTour(false)}
+        steps={tourSteps}
+        badgeText={currentLang === 'es' ? 'Perfil' : 'Profile'}
+        finishButtonText={currentLang === 'es' ? '¡Entendido!' : 'Got it!'}
+        language={currentLang as 'es' | 'en'}
+      />
     </div>
   );
 };

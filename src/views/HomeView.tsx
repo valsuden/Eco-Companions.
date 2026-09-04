@@ -3,10 +3,11 @@ import { motion, AnimatePresence } from 'motion/react';
 import { User, Stats, PetInfo, EcoFood } from '../types';
 import { HUD } from '../components/HUD';
 import { SceneEnvironment } from '../components/SceneEnvironment';
-import { CheckCircle2, Info, X, Leaf, Recycle, Trash2, Smartphone, Tablet, Monitor } from 'lucide-react';
+import { CheckCircle2, Info, X, Leaf, Recycle, Trash2, Smartphone, Tablet, Monitor, HelpCircle, Gamepad2 } from 'lucide-react';
 import { sound } from '../utils/sound';
 import { useI18n } from '../utils/i18n';
 import { useLayoutBreakpoint } from '../utils/useLayoutBreakpoint';
+import { GuidedTour, TourStep } from '../components/GuidedTour';
 
 interface HomeViewProps {
   user: User;
@@ -44,6 +45,44 @@ export function HomeView({
   const currentLang = user.language || 'en';
   const t = useI18n(currentLang);
   const layout = useLayoutBreakpoint();
+
+  const [showTour, setShowTour] = useState(() => {
+    try {
+      return localStorage.getItem('caucasia_eco_tour_home_tour') !== 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const tourSteps: TourStep[] = [
+    {
+      id: 'step_hud',
+      targetId: 'eco-game-hud',
+      title: currentLang === 'es' ? 'Tu Progreso' : 'Your Progress',
+      description: currentLang === 'es' 
+        ? 'Aquí puedes ver tu nivel actual, nombre de usuario y monedas. Toca para ver las notificaciones o la recompensa diaria.' 
+        : 'Here you can see your current level, username, and coins. Tap to see notifications or daily rewards.',
+      icon: <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+    },
+    {
+      id: 'step_pet_interaction',
+      targetId: 'pet-interaction-zone',
+      title: currentLang === 'es' ? 'Cuida a tu mascota' : 'Care for your pet',
+      description: currentLang === 'es' 
+        ? 'Usa estos botones para interactuar con tu mascota, chatear, alimentarla, bañarla o hacerla dormir.' 
+        : 'Use these buttons to interact with your pet, chat, feed, clean, or put them to sleep.',
+      icon: <Leaf className="w-5 h-5 text-emerald-400" />
+    },
+    {
+      id: 'step_nav',
+      targetId: layout.isDesktop ? 'main-navigation' : 'main-navigation-mobile',
+      title: currentLang === 'es' ? 'Navegación' : 'Navigation',
+      description: currentLang === 'es'
+        ? 'Muévete entre el Santuario, Minijuegos, Inventario, Pase Ecológico y Tienda desde aquí.'
+        : 'Navigate between the Sanctuary, Minigames, Inventory, Eco Pass, and Store from here.',
+      icon: <Gamepad2 className="w-5 h-5 text-sky-400" />
+    }
+  ];
 
   const [binInfoModal, setBinInfoModal] = useState<{
     category: 'organic' | 'recyclable' | 'non_usable';
@@ -105,6 +144,18 @@ export function HomeView({
         padding: '0',
       }}
     >
+      {/* Tour trigger button */}
+      <button
+        onClick={() => {
+          sound.playClick();
+          setShowTour(true);
+        }}
+        className="absolute top-16 right-4 z-40 p-2.5 rounded-2xl border bg-theme-surface hover:bg-theme-surface-hover text-theme-accent border-theme-accent/30 shadow-lg cursor-pointer transition-colors backdrop-blur-md"
+        title={currentLang === 'es' ? 'Ver tour' : 'View tour'}
+      >
+        <HelpCircle className="w-5 h-5" />
+      </button>
+
       {/* Dynamic Game HUD Header (Responsive 3-row layout on mobile, dynamic bar on tablet/desktop) */}
       <HUD 
         user={user} 
@@ -138,6 +189,16 @@ export function HomeView({
           onUpdateUser={onUpdateUser}
         />
       </main>
+
+      <GuidedTour
+        tourId="home_tour"
+        isOpen={showTour}
+        onClose={() => setShowTour(false)}
+        steps={tourSteps}
+        badgeText={currentLang === 'es' ? 'Santuario' : 'Sanctuary'}
+        finishButtonText={currentLang === 'es' ? '¡Entendido!' : 'Got it!'}
+        language={currentLang as 'es' | 'en'}
+      />
 
       {/* Waste Information Interactive Modal with Safe Touch Padding */}
       <AnimatePresence>

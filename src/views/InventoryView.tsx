@@ -25,8 +25,10 @@ import {
   Shirt, 
   RotateCcw,
   Zap,
-  Info
+  Info,
+  HelpCircle
 } from 'lucide-react';
+import { GuidedTour, TourStep } from '../components/GuidedTour';
 
 interface InventoryViewProps {
   user: User;
@@ -49,6 +51,35 @@ export function InventoryView({
 }: InventoryViewProps) {
   const currentLang = user.language || 'en';
   const t = useI18n(currentLang);
+
+  const [showTour, setShowTour] = useState(() => {
+    try {
+      return localStorage.getItem('caucasia_eco_tour_inventory_tour') !== 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const tourSteps: TourStep[] = [
+    {
+      id: 'step_wardrobe',
+      targetId: 'inventory-tabs',
+      title: currentLang === 'es' ? 'Tu Inventario' : 'Your Inventory',
+      description: currentLang === 'es' 
+        ? 'Aquí puedes ver tu guardarropa de cosméticos y tu mochila con objetos consumibles.' 
+        : 'Here you can see your cosmetic wardrobe and your backpack with consumable items.',
+      icon: <Backpack className="w-5 h-5 text-emerald-400" />
+    },
+    {
+      id: 'step_pet_preview',
+      targetId: 'pet-preview-stage',
+      title: currentLang === 'es' ? 'Vista Previa' : 'Preview Stage',
+      description: currentLang === 'es' 
+        ? 'Prueba cómo se ven los accesorios en tiempo real.' 
+        : 'Try out accessories and see how they look in real time.',
+      icon: <Sparkles className="w-5 h-5 text-amber-400" />
+    }
+  ];
 
   const [activeTab, setActiveTab] = useState<'wardrobe' | 'backpack'>('wardrobe');
   const [selectedWardrobeCategory, setSelectedWardrobeCategory] = useState<'all' | CosmeticSlot>('all');
@@ -145,7 +176,7 @@ export function InventoryView({
   return (
     <div
       id="inventory-view"
-      className="w-full h-full overflow-y-auto p-3 sm:p-6 select-none bg-theme-primary text-theme-primary"
+      className="w-full h-full overflow-y-auto p-3 sm:p-6 select-none bg-theme-primary text-theme-primary relative"
     >
       <div className="max-w-5xl mx-auto space-y-5 pb-24 md:pb-8">
         {/* Header */}
@@ -177,10 +208,21 @@ export function InventoryView({
             <ShoppingBag className="w-4 h-4" />
             <span>{currentLang === 'es' ? 'Ir a la Eco-Tienda' : 'Go to Eco-Store'}</span>
           </button>
+          
+          <button
+            onClick={() => {
+              sound.playClick();
+              setShowTour(true);
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-theme-accent text-xs font-bold transition-all cursor-pointer hover:opacity-85 glass-panel bg-theme-surface text-theme-accent self-start sm:self-auto"
+            title={currentLang === 'es' ? 'Ayuda' : 'Help'}
+          >
+            <Info className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Top Segmented Navigation Tabs */}
-        <div className="grid grid-cols-2 p-1 rounded-2xl shadow-inner max-w-md mx-auto glass-panel">
+        <div id="inventory-tour-wardrobe" className="grid grid-cols-2 p-1 rounded-2xl shadow-inner max-w-md mx-auto glass-panel">
           <button
             onClick={() => {
               sound.playClick();
@@ -204,7 +246,7 @@ export function InventoryView({
             }`}
           >
             <Backpack className="w-4 h-4" />
-            <span>{currentLang === 'es' ? 'Mochila de Objetos' : 'Backpack'}</span>
+            <span id="inventory-tour-backpack">{currentLang === 'es' ? 'Mochila de Objetos' : 'Backpack'}</span>
           </button>
         </div>
 
@@ -212,9 +254,9 @@ export function InventoryView({
         {/* TAB 1: ARMARIO DE COSMÉTICOS & LIVE 2.5D PREVIEW */}
         {/* ========================================================================= */}
         {activeTab === 'wardrobe' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          <div id="inventory-tabs" className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             {/* Left 5 Cols: Live 2.5D Pet Stage & Equipped Summary */}
-            <div className="lg:col-span-5 rounded-3xl p-4 sm:p-5 flex flex-col items-center justify-between relative overflow-hidden glass-card">
+            <div id="pet-preview-stage" className="lg:col-span-5 rounded-3xl p-4 sm:p-5 flex flex-col items-center justify-between relative overflow-hidden glass-card">
               {/* Top Bar on Stage */}
               <div className="w-full flex items-center justify-between z-10 border-b border-theme pb-2 mb-2">
                 <span className="text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 text-theme-accent">
@@ -610,6 +652,16 @@ export function InventoryView({
           </div>
         )}
       </div>
+
+      <GuidedTour
+        tourId="inventory_tour"
+        isOpen={showTour}
+        onClose={() => setShowTour(false)}
+        steps={tourSteps}
+        badgeText={currentLang === 'es' ? 'Inventario' : 'Inventory'}
+        finishButtonText={currentLang === 'es' ? '¡Entendido!' : 'Got it!'}
+        language={currentLang as 'es' | 'en'}
+      />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { User } from '../types';
 import { 
@@ -14,11 +14,13 @@ import {
   Zap,
   CheckCircle2,
   Trees,
-  Award
+  Award,
+  Info
 } from 'lucide-react';
 import { useI18n } from '../utils/i18n';
 import { sound } from '../utils/sound';
 import { EcoIcon } from '../components/EcoIcon';
+import { GuidedTour, TourStep } from '../components/GuidedTour';
 
 interface EcoPassViewProps {
   user: User;
@@ -98,8 +100,28 @@ export function EcoPassView({ user, onClaimReward }: EcoPassViewProps) {
   const ecoPointsNextLevel = user.level * 100;
   const currentLevelProgress = Math.min(100, Math.round(((user.xp % 100) / 100) * 100));
 
+  const [showTour, setShowTour] = useState(() => {
+    try {
+      return localStorage.getItem('caucasia_eco_tour_ecopass_tour') !== 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const tourSteps: TourStep[] = [
+    {
+      id: 'step_pass_route',
+      targetId: 'ecopass-tour-route',
+      title: currentLang === 'es' ? 'Ruta de Nodos' : 'Node Route',
+      description: currentLang === 'es' 
+        ? 'Aumenta tu nivel completando juegos y misiones para desbloquear recompensas en el mapa.' 
+        : 'Level up by completing games and quests to unlock rewards on the map.',
+      icon: <Crown className="w-5 h-5 text-amber-400" />
+    }
+  ];
+
   return (
-    <div className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary">
+    <div className="w-full h-full overflow-y-auto p-4 sm:p-6 select-none bg-theme-primary text-theme-primary relative">
       <div className="max-w-4xl mx-auto space-y-6 pb-24 md:pb-8">
         
         {/* Header */}
@@ -122,28 +144,42 @@ export function EcoPassView({ user, onClaimReward }: EcoPassViewProps) {
             </div>
           </div>
           
-          {/* Level & Points Gauge */}
-          <div className="flex items-center gap-3 p-3 rounded-2xl border border-theme bg-theme-surface shadow-md">
-            <div className="p-2 rounded-xl bg-amber-400 text-slate-950 font-black">
-              <Zap className="w-5 h-5 fill-slate-950" />
-            </div>
-            <div>
-              <div className="flex justify-between text-xs font-black text-theme-primary gap-4">
-                <span>{currentLang === 'es' ? 'Nivel de Agente' : 'Agent Level'} {user.level}</span>
-                <span className="text-theme-accent">{currentLevelProgress}%</span>
+          <div className="flex items-center gap-3">
+            {/* Level & Points Gauge */}
+            <div className="flex items-center gap-3 p-3 rounded-2xl border border-theme bg-theme-surface shadow-md">
+              <div className="p-2 rounded-xl bg-amber-400 text-slate-950 font-black">
+                <Zap className="w-5 h-5 fill-slate-950" />
               </div>
-              <div className="w-36 h-2 rounded-full bg-theme-primary border border-theme overflow-hidden mt-1">
-                <div 
-                  className="h-full bg-theme-accent transition-all duration-500 rounded-full" 
-                  style={{ width: `${currentLevelProgress}%` }}
-                />
+              <div>
+                <div className="flex justify-between text-xs font-black text-theme-primary gap-4">
+                  <span>{currentLang === 'es' ? 'Nivel de Agente' : 'Agent Level'} {user.level}</span>
+                  <span className="text-theme-accent">{currentLevelProgress}%</span>
+                </div>
+                <div className="w-36 h-2 rounded-full bg-theme-primary border border-theme overflow-hidden mt-1">
+                  <div 
+                    className="h-full bg-theme-accent transition-all duration-500 rounded-full" 
+                    style={{ width: `${currentLevelProgress}%` }}
+                  />
+                </div>
               </div>
             </div>
+
+            {/* Help Button */}
+            <button
+              onClick={() => {
+                sound.playClick();
+                setShowTour(true);
+              }}
+              className="flex items-center gap-1.5 px-3 py-3 rounded-xl border border-theme-accent text-xs font-bold transition-all cursor-pointer hover:opacity-85 glass-panel bg-theme-surface text-theme-accent"
+              title={currentLang === 'es' ? 'Ayuda' : 'Help'}
+            >
+              <Info className="w-4 h-4" />
+            </button>
           </div>
         </div>
 
         {/* Visual Progress Route (Camino de Nodos) */}
-        <div className="glass-card border border-theme-accent rounded-3xl p-5 sm:p-8 space-y-8 relative overflow-hidden bg-theme-surface">
+        <div id="ecopass-tour-route" className="glass-card border border-theme-accent rounded-3xl p-5 sm:p-8 space-y-8 relative overflow-hidden bg-theme-surface">
           {/* Decorative Path Header */}
           <div className="flex items-center justify-between text-xs font-black text-theme-muted border-b border-theme pb-3">
             <span className="flex items-center gap-1.5 text-theme-accent uppercase tracking-wider">
@@ -155,103 +191,109 @@ export function EcoPassView({ user, onClaimReward }: EcoPassViewProps) {
             </span>
           </div>
 
-          {/* Node Route Snake / Vertical Timeline */}
-          <div className="relative pl-6 sm:pl-10 space-y-8">
-            {/* Connecting Vertical Line */}
-            <div className="absolute left-10 sm:left-14 top-4 bottom-4 w-1 bg-theme-primary border-r border-theme z-0" />
+          {/* Node Route Winding Path */}
+          <div className="relative pl-4 pr-4 sm:pl-10 space-y-12">
+            {/* Connecting Vertical Winding Line (CSS driven via node positions) */}
+            <div className="absolute left-1/2 top-4 bottom-4 w-1.5 -ml-[3px] bg-theme-primary border-r border-theme z-0" />
 
             {passTiers.map((tier, index) => {
               const isCurrentTarget = !tier.isClaimed && tier.isUnlocked;
+              // Alternate sides for the winding path effect
+              const isRightSide = index % 2 === 0;
 
               return (
-                <div key={tier.tier} className="relative z-10 flex items-start gap-4 sm:gap-6">
-                  {/* Step Node Circle */}
-                  <motion.div
-                    whileHover={{ scale: 1.08 }}
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center shrink-0 border-2 font-black text-xs sm:text-sm transition-all shadow-md ${
-                      tier.isClaimed
-                        ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-emerald-500/20'
-                        : tier.isUnlocked
-                        ? 'bg-theme-accent text-white border-theme-accent shadow-theme-glow animate-pulse'
-                        : 'bg-theme-primary text-theme-muted border-theme'
-                    }`}
-                  >
-                    {tier.isClaimed ? (
-                      <CheckCircle2 className="w-5 h-5" />
-                    ) : tier.isUnlocked ? (
-                      <span>{tier.tier}</span>
-                    ) : (
-                      <Lock className="w-4 h-4 opacity-60" />
-                    )}
-                  </motion.div>
+                <div key={tier.tier} className={`relative z-10 flex items-center justify-center w-full`}>
+                  {/* Container for the node and its card, shifting left or right */}
+                  <div className={`flex items-center gap-4 sm:gap-6 w-full max-w-lg ${isRightSide ? 'flex-row' : 'flex-row-reverse'}`}>
+                    
+                    {/* Step Node Circle */}
+                    <motion.div
+                      whileHover={{ scale: 1.08 }}
+                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shrink-0 border-2 font-black text-sm sm:text-base transition-all shadow-md z-20 ${
+                        tier.isClaimed
+                          ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-emerald-500/20'
+                          : tier.isUnlocked
+                          ? 'bg-theme-accent text-white border-theme-accent shadow-theme-glow animate-pulse'
+                          : 'bg-theme-primary text-theme-muted border-theme'
+                      }`}
+                    >
+                      {tier.isClaimed ? (
+                        <CheckCircle2 className="w-6 h-6" />
+                      ) : tier.isUnlocked ? (
+                        <span>{tier.tier}</span>
+                      ) : (
+                        <Lock className="w-5 h-5 opacity-60" />
+                      )}
+                    </motion.div>
 
-                  {/* Node Content Card */}
-                  <div
-                    className={`flex-1 p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                      tier.isClaimed
-                        ? 'bg-theme-primary/50 border-theme text-theme-muted opacity-75'
-                        : tier.isUnlocked
-                        ? 'bg-theme-surface border-theme-accent shadow-theme-glow text-theme-primary'
-                        : 'bg-theme-primary border-theme text-theme-muted'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 rounded-xl bg-theme-primary border border-theme text-theme-accent shrink-0">
-                        {tier.reward.type === 'coins' ? (
-                          <Coins className="w-6 h-6 text-amber-400" />
-                        ) : (
-                          <EcoIcon name={tier.reward.iconName} className="w-6 h-6" />
-                        )}
-                      </div>
-
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-theme-primary text-theme-accent border border-theme">
-                            NODO {tier.tier}
-                          </span>
-                          {tier.isPremium && (
-                            <span className="text-[10px] font-black uppercase text-amber-400 flex items-center gap-1 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/30">
-                              <Crown className="w-3 h-3" />
-                              ÉPICO
-                            </span>
+                    {/* Node Content Card */}
+                    <div
+                      className={`flex-1 p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                        tier.isClaimed
+                          ? 'bg-theme-primary/50 border-theme text-theme-muted opacity-75'
+                          : tier.isUnlocked
+                          ? 'bg-theme-surface border-theme-accent shadow-theme-glow text-theme-primary'
+                          : 'bg-theme-primary border-theme text-theme-muted'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-theme-primary border border-theme text-theme-accent shrink-0">
+                          {tier.reward.type === 'coins' ? (
+                            <Coins className="w-6 h-6 text-amber-400" />
+                          ) : (
+                            <EcoIcon name={tier.reward.iconName} className="w-6 h-6" />
                           )}
                         </div>
 
-                        <h3 className="text-xs sm:text-sm font-black mt-1 text-theme-primary">
-                          {tier.reward.name}
-                        </h3>
-                      </div>
-                    </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-theme-primary text-theme-accent border border-theme">
+                              NODO {tier.tier}
+                            </span>
+                            {tier.isPremium && (
+                              <span className="text-[10px] font-black uppercase text-amber-400 flex items-center gap-1 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/30">
+                                <Crown className="w-3 h-3" />
+                                ÉPICO
+                              </span>
+                            )}
+                          </div>
 
-                    {/* Action Button / Badge */}
-                    <div className="shrink-0">
-                      {tier.isClaimed ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30">
-                          <Check className="w-3.5 h-3.5" />
-                          {currentLang === 'es' ? 'Obtenido' : 'Claimed'}
-                        </span>
-                      ) : tier.isUnlocked ? (
-                        <button
-                          onClick={() => {
-                            sound.playReward();
-                            onClaimReward(
-                              tier.tier,
-                              tier.reward.type,
-                              tier.reward.amount,
-                              tier.reward.id
-                            );
-                          }}
-                          className="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider bg-amber-400 text-slate-950 hover:bg-amber-300 transition-transform active:scale-95 shadow-md flex items-center gap-1.5 cursor-pointer"
-                        >
-                          <Gift className="w-4 h-4" />
-                          <span>{currentLang === 'es' ? 'Reclamar' : 'Claim'}</span>
-                        </button>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-theme-muted bg-theme-primary border border-theme">
-                          <Lock className="w-3.5 h-3.5" />
-                          {currentLang === 'es' ? 'Bloqueado' : 'Locked'}
-                        </span>
-                      )}
+                          <h3 className="text-xs sm:text-sm font-black mt-1 text-theme-primary">
+                            {tier.reward.name}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {/* Action Button / Badge */}
+                      <div className="shrink-0">
+                        {tier.isClaimed ? (
+                          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30">
+                            <Check className="w-3.5 h-3.5" />
+                            {currentLang === 'es' ? 'Obtenido' : 'Claimed'}
+                          </span>
+                        ) : tier.isUnlocked ? (
+                          <button
+                            onClick={() => {
+                              sound.playReward();
+                              onClaimReward(
+                                tier.tier,
+                                tier.reward.type,
+                                tier.reward.amount,
+                                tier.reward.id
+                              );
+                            }}
+                            className="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider bg-amber-400 text-slate-950 hover:bg-amber-300 transition-transform active:scale-95 shadow-md flex items-center gap-1.5 cursor-pointer"
+                          >
+                            <Gift className="w-4 h-4" />
+                            <span>{currentLang === 'es' ? 'Reclamar' : 'Claim'}</span>
+                          </button>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold text-theme-muted bg-theme-primary border border-theme">
+                            <Lock className="w-3.5 h-3.5" />
+                            {currentLang === 'es' ? 'Bloqueado' : 'Locked'}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -261,6 +303,16 @@ export function EcoPassView({ user, onClaimReward }: EcoPassViewProps) {
         </div>
 
       </div>
+
+      <GuidedTour
+        tourId="ecopass_tour"
+        isOpen={showTour}
+        onClose={() => setShowTour(false)}
+        steps={tourSteps}
+        badgeText={currentLang === 'es' ? 'Eco Pass' : 'Eco Pass'}
+        finishButtonText={currentLang === 'es' ? '¡Entendido!' : 'Got it!'}
+        language={currentLang as 'es' | 'en'}
+      />
     </div>
   );
 }

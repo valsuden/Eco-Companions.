@@ -59,7 +59,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentView, onNavigate,
       {/* DESKTOP & TABLET SIDEBAR (>= md) */}
       {/* ========================================================================= */}
       <aside 
-        id="desktop-sidebar-nav"
+        id="main-navigation"
         className="hidden md:flex flex-col md:w-20 lg:w-64 border-r shrink-0 p-3 lg:px-4 lg:py-5 justify-between select-none relative z-40 transition-colors duration-200"
         style={{ 
           backgroundColor: 'var(--nav-bg)',
@@ -221,7 +221,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentView, onNavigate,
       {/* MOBILE FIXED BOTTOM NAVIGATION BAR (< md) */}
       {/* ========================================================================= */}
       <nav 
-        id="mobile-bottom-nav"
+        id="main-navigation-mobile"
         className="md:hidden fixed bottom-0 left-0 right-0 h-16 border-t flex items-stretch justify-around px-1 z-50 shadow-2xl backdrop-blur-2xl"
         style={{ 
           backgroundColor: 'var(--nav-bg)',
